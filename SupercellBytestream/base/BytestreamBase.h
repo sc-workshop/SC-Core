@@ -38,20 +38,14 @@ namespace sc
 		}
 
 		size_t read(void* data, size_t dataSize) {
-			if (!closed) {
+			if (!closed && !eof()) {
 				return _read(data, dataSize);
-			}
-			else {
-				throw StreamException(StreamError::CLOSED_ERROR, "Failed to read data from closed stream.");
 			}
 		};
 
 		size_t write(void* data, size_t dataSize) {
 			if (!closed) {
 				return _write(data, dataSize);
-			}
-			else {
-				throw StreamException(StreamError::CLOSED_ERROR, "Failed to write data to closed stream.");
 			}
 		};
 
