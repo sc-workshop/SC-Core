@@ -4,7 +4,6 @@
 #include <cstring>
 
 #include "SupercellBytestream/base/Endian.h"
-#include "SupercellBytestream/error/StreamException.h"
 
 namespace sc
 {

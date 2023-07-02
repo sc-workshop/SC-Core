@@ -1,8 +1,6 @@
 #pragma once
 
 #include "SupercellBytestream/base/Bytestream.h"
-#include "SupercellBytestream/error/StreamException.h"
-#include "SupercellBytestream/error/FileExistException.h"
 
 #include <fstream>
 #include <filesystem>
