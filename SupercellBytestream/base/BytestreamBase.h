@@ -39,12 +39,16 @@ namespace sc
 		size_t read(void* data, size_t dataSize) {
 			if (!closed && !eof()) {
 				return _read(data, dataSize);
+			} else {
+				return 0;
 			}
 		};
 
 		size_t write(void* data, size_t dataSize) {
 			if (!closed) {
 				return _write(data, dataSize);
+			} else {
+				return 0;
 			}
 		};
 
