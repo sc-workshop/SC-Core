@@ -11,7 +11,7 @@ namespace sc
 	{
 	protected:
 		virtual size_t _read(void* data, size_t dataSize) = 0;
-		virtual size_t _write(void* data, size_t dataSize) = 0;
+		virtual size_t _write(const void* data, size_t dataSize) = 0;
 
 	public:
 		virtual ~BytestreamBase() {};
@@ -44,7 +44,7 @@ namespace sc
 			}
 		};
 
-		size_t write(void* data, size_t dataSize) {
+		size_t write(const void* data, size_t dataSize) {
 			if (!closed) {
 				return _write(data, dataSize);
 			} else {

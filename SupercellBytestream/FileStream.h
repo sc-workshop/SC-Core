@@ -30,7 +30,7 @@ namespace sc {
 			return 0;
 		}
 
-		size_t _write(void* buff, size_t buffSize)
+		size_t _write(const void* buff, size_t buffSize)
 		{
 			size_t pos = file.tellp();
 
@@ -89,7 +89,7 @@ namespace sc {
 			return toRead;
 		};
 
-		size_t _write(void* data, size_t dataSize) {
+		size_t _write(const void* data, size_t dataSize) {
 			return 0;
 		}
 

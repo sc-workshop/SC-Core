@@ -30,7 +30,7 @@ namespace sc {
 			return toRead;
 		};
 
-		size_t _write(void* data, size_t dataSize) override
+		size_t _write(const void* data, size_t dataSize) override
 		{
 			auto oldSize = m_buffer->size();
 			m_buffer->resize(oldSize + dataSize);
