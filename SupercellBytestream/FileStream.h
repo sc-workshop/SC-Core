@@ -11,7 +11,7 @@ using std::ifstream;
 using std::ofstream;
 
 namespace sc {
-	class WriteFileStream: public Bytestream {
+	class WriteFileStream : public Bytestream {
 	private:
 		ofstream file;
 		uint32_t fileSize = 0;
@@ -25,7 +25,7 @@ namespace sc {
 			file.seekp(0);
 		}
 
-		size_t _read(void* data, size_t dataSize) override
+		size_t _read(void*, size_t) override
 		{
 			return 0;
 		}
@@ -89,7 +89,7 @@ namespace sc {
 			return toRead;
 		};
 
-		size_t _write(const void* data, size_t dataSize) {
+		size_t _write(const void*, size_t) {
 			return 0;
 		}
 

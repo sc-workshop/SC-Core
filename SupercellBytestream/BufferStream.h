@@ -11,7 +11,7 @@ namespace sc {
 	public:
 		explicit BufferStream(std::vector<uint8_t>* buffer) : m_buffer(buffer) {}
 
-		size_t _read(void* data, size_t dataSize) override
+		size_t _read(void* data, size_t dataSize)
 		{
 			if (dataSize == 0 || position >= size())
 			{
@@ -30,7 +30,7 @@ namespace sc {
 			return toRead;
 		};
 
-		size_t _write(const void* data, size_t dataSize) override
+		size_t _write(const void* data, size_t dataSize)
 		{
 			auto oldSize = m_buffer->size();
 			m_buffer->resize(oldSize + dataSize);
@@ -41,12 +41,12 @@ namespace sc {
 			return dataSize;
 		};
 
-		uint32_t tell() override
+		uint32_t tell()
 		{
 			return static_cast<uint32_t>(position);
 		};
 
-		void seek(uint32_t pos) override
+		void seek(uint32_t pos)
 		{
 			if (size() >= pos)
 			{
@@ -58,24 +58,20 @@ namespace sc {
 			}
 		};
 
-		uint32_t size() override
+		uint32_t size()
 		{
 			return static_cast<uint32_t>(m_buffer->size());
 		};
 
-		void* data()
+		uint8_t* data()
 		{
 			return m_buffer->data();
 		}
 
-		void close() override
+		void close()
 		{
 			m_buffer = nullptr;
 			position = 0;
 		};
-
-		std::vector<uint8_t>* buffer(uint8_t* data) {
-			return m_buffer;
-		}
 	};
 }

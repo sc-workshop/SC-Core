@@ -21,6 +21,11 @@ namespace sc
 
 		virtual uint32_t size() = 0;
 
+		virtual uint8_t* data()
+		{
+			return nullptr;
+		}
+
 		virtual void close() = 0;
 
 		bool eof()
@@ -36,18 +41,22 @@ namespace sc
 				seek(tell() + length);
 		}
 
-		size_t read(void* data, size_t dataSize) {
+		size_t read(void* data, size_t dataSize)
+		{
 			if (!closed && !eof()) {
 				return _read(data, dataSize);
-			} else {
+			}
+			else {
 				return 0;
 			}
 		};
 
-		size_t write(const void* data, size_t dataSize) {
+		size_t write(const void* data, size_t dataSize)
+		{
 			if (!closed) {
 				return _write(data, dataSize);
-			} else {
+			}
+			else {
 				return 0;
 			}
 		};
