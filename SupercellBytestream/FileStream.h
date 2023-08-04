@@ -30,7 +30,7 @@ namespace sc {
 			return 0;
 		}
 
-		size_t _write(const void* buff, size_t buffSize)
+		size_t _write(const void* buff, size_t buffSize) override
 		{
 			size_t pos = file.tellp();
 
@@ -41,28 +41,30 @@ namespace sc {
 			return result;
 		}
 
-		uint32_t tell()
+		uint32_t tell() override
 		{
 			return static_cast<uint32_t>(file.tellp());
 		}
 
-		void seek(uint32_t position)
+		void seek(uint32_t position) override
 		{
 			file.seekp(position);
 		}
 
-		uint32_t size()
+		uint32_t size() override
 		{
 			return fileSize;
 		}
 
-		bool operator!() {
-			return file.fail() || closed;
-		}
-
-		void close() {
+		void close() override
+		{
 			file.close();
 			closed = true;
+		}
+
+		bool operator!()
+		{
+			return file.fail() || closed;
 		}
 	};
 
