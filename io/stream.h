@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "shared/io/endian.h"
+#include "endian.h"
 
 namespace sc
 {
