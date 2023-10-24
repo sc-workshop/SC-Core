@@ -6,21 +6,8 @@ enum class Endian
 	Big
 };
 
-//template<class T>
-//constexpr void swap_endian(T* value)
-//{
-//	for (int i = 0; i < sizeof(T) / 2; i++)
-//	{
-//		char* _ptr = (char*)&value;
-//		char _temp = *(_ptr + i);
-//
-//		*(_ptr + i) = *(_ptr + sizeof(T) - i - 1);
-//		*(_ptr + sizeof(T) - i - 1) = _temp;
-//	}
-//}
-
 template<typename T>
-T swap_endian(T value)
+constexpr T swap_endian(T value)
 {
 	union
 	{

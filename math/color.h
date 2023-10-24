@@ -1,23 +1,31 @@
 #pragma once
+#include <cstring>
 
-struct Color
+namespace sc
 {
-	union
+	struct Color
 	{
-		struct
+		union
 		{
-			float r, g, b, a;
+			struct
+			{
+				float r, g, b, a;
+			};
+
+			float channels[4];
 		};
 
-		float channels[4];
+		Color(const float* arr)
+		{
+			memcpy(channels, arr, sizeof(channels));
+		};
+
+		Color(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f)
+		{
+			r = red;
+			g = green;
+			b = blue;
+			a = alpha;
+		};
 	};
-
-	Color();
-
-	Color(float red);
-	Color(float red, float green);
-	Color(float red, float green, float blue);
-	Color(float red, float green, float blue, float alpha);
-
-	Color(const float* arr);
-};
+}

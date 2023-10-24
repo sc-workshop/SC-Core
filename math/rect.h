@@ -1,28 +1,38 @@
 #pragma once
+#include <cstring>
 
-struct Rect
+namespace sc
 {
-	union
+	struct Rect
 	{
-		struct
+		union
 		{
-			float x, y;
-			float width, height;
+			struct
+			{
+				float x, y;
+				float width, height;
+			};
+
+			struct
+			{
+				float left, top;
+				float right, bottom;
+			};
+
+			float points[4];
 		};
 
-		struct
+		Rect(const float* arr)
 		{
-			float left, top;
-			float right, bottom;
+			memcpy(points, arr, sizeof(points));
 		};
 
-		float points[4];
+		Rect(float a = 0.0f, float b = 0.0f, float c = 0.0f, float d = 0.0f)
+		{
+			x = a;
+			y = b;
+			width = c;
+			height = d;
+		};
 	};
-
-	Rect();
-
-	Rect(float a, float b);
-	Rect(float a, float b, float c, float d);
-	
-	Rect(const float* arr);
-};
+}

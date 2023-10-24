@@ -2,37 +2,108 @@
 
 #include "shared/io/stream.h"
 
-class MemoryStream : public Stream
+namespace sc
 {
-public:
-	MemoryStream() = default;
+	class MemoryStream : public Stream
+	{
+	public:
+		MemoryStream() = default;
 
-	MemoryStream(uint8_t* data, size_t length);
-	MemoryStream(const uint8_t* data, size_t length);
+		MemoryStream(uint8_t* data, size_t length)
+		{
+			m_data = data;
 
-	virtual ~MemoryStream();
+			m_length = length;
+			m_position = 0;
+		};
 
-public:
-	void* data() override;
-	const void* data() const override;
+		virtual ~MemoryStream()
+		{
+			if (m_data)
+			{
+				delete[] m_data;
+				m_data = nullptr;
+			}
+		};
 
-	size_t length() const override;
+	public:
+		void* data() override
+		{
+			return (void*)m_data;
+		};
 
-	size_t position() const override;
-	size_t seek(size_t position) override;
+		size_t length() const override
+		{
+			return m_length;
+		};
 
-	bool is_open() const override;
-	bool is_readable() const override;
-	bool is_writable() const override;
+		size_t position() const override
+		{
+			return m_position;
+		};
+		size_t seek(size_t position, Seek mode) override
+		{
+			switch (mode)
+			{
+			case Seek::Set:
+				m_position = position;
+				break;
+			case Seek::Add:
+				m_position += position;
+				break;
+			default:
+				break;
+			}
 
-protected:
-	size_t read_data(void* ptr, size_t length) override;
-	size_t write_data(const void* ptr, size_t length) override;
+			return m_position;
+		};
 
-private:
-	uint8_t* m_data = nullptr;
-	const uint8_t* m_const_data = nullptr;
+		bool is_open() const override
+		{
+			return m_data != nullptr && m_length > 0;
+		};
+		bool is_readable() const override
+		{
+			return m_data != nullptr && m_length > 0;
+		};
+		bool is_writable() const override
+		{
+			return m_data != nullptr && m_length > 0;
+		};
 
-	size_t m_length = 0;
-	size_t m_position = 0;
-};
+	protected:
+		size_t read_data(void* ptr, size_t length) override
+		{
+			if (m_data == nullptr || ptr == nullptr || length <= 0 || m_length <= 0 || m_position >= m_length)
+				return 0;
+
+			if (length > m_length - m_position)
+				length = m_length - m_position;
+
+			memcpy(ptr, m_data + m_position, length);
+			m_position += length;
+
+			return length;
+		};
+
+		size_t write_data(const void* ptr, size_t length) override
+		{
+			if (m_data == nullptr || ptr == nullptr || length <= 0 || m_length <= 0 || m_position >= m_length)
+				return 0;
+
+			if (length > m_length - m_position)
+				length = m_length - m_position;
+
+			memcpy(m_data + m_position, ptr, length);
+			m_position += length;
+
+			return length;
+		};
+
+	private:
+		uint8_t* m_data = nullptr;
+
+		size_t m_length = 0;
+		size_t m_position = 0;
+	};
+}

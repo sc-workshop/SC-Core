@@ -1,41 +1,49 @@
 #pragma once
+#include <cstring>
 
-struct Point
+namespace sc
 {
-	union
+	struct Point
 	{
-		struct
+		union
 		{
-			float x, y;
+			struct
+			{
+				float x, y;
+			};
+
+			struct
+			{
+				float u, v;
+			};
+
+			struct
+			{
+				float s, t;
+			};
+
+			struct
+			{
+				float r, g;
+			};
+
+			struct
+			{
+				float l, a;
+			};
+
+			float coords[2];
 		};
 
-		struct
+		Point(const float* arr)
 		{
-			float u, v;
-		};
+			memcpy(coords, arr, sizeof(coords));
+		}
 
-		struct
+		Point(float a = 0.0f, float b = 0.0f)
 		{
-			float s, t;
+			x = a;
+			y = b;
 		};
-
-		struct
-		{
-			float r, g;
-		};
-
-		struct
-		{
-			float l, a;
-		};
-
-		float coords[2];
 	};
-
-	Point();
-
-	Point(float a);
-	Point(float a, float b);
-
-	Point(const float* arr);
-};
+}
