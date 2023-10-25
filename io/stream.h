@@ -29,7 +29,7 @@ namespace sc
 		virtual size_t length() const = 0;
 
 		virtual size_t position() const = 0;
-		virtual size_t seek(size_t position, Seek mode) = 0;
+		virtual size_t seek(size_t position, Seek mode = Seek::Set) = 0;
 
 		virtual bool is_open() const = 0;
 		virtual bool is_readable() const = 0;

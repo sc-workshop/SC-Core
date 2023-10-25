@@ -41,7 +41,7 @@ namespace sc
 		{
 			return m_position;
 		};
-		size_t seek(size_t position, Seek mode) override
+		size_t seek(size_t position, Seek mode = Seek::Set) override
 		{
 			switch (mode)
 			{
