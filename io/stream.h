@@ -131,7 +131,11 @@ namespace sc
 	public:
 		size_t write(const void* buffer, size_t length)
 		{
-			return write_data(buffer, length);
+			if (length)
+			{
+				return write_data(buffer, length);
+			}
+			return 0;
 		};
 
 		size_t write_bool(bool value)

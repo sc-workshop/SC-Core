@@ -1,5 +1,7 @@
 #include "GeneralRuntimeException.h"
 
+#include <sstream>
+
 namespace sc
 {
 	class MemoryAllocationException : public GeneralRuntimeException
@@ -10,10 +12,12 @@ namespace sc
 
 		virtual const char* what() const override
 		{
-			return "Failed to allocate " std::to_string(m_bytes) " bytes of memory";
+			std::stringstream message;
+			message << "Failed to allocate " << std::to_string(m_bytes) << " bytes of memory";
+			return message.str().c_str();
 		}
 
 	private:
-		const size_t& m_bytes
+		const size_t& m_bytes;
 	};
 }
