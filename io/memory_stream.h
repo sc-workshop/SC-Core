@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared/io/stream.h"
+#include "stream.h"
 
 namespace sc
 {
