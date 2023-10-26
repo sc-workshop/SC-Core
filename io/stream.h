@@ -154,45 +154,45 @@ namespace sc
 
 		size_t write_short(int16_t value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(int16_t));
 		};
 		size_t write_unsigned_short(uint16_t value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(uint16_t));
 		};
 
 		size_t write_int(int32_t value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(int32_t));
 		};
 		size_t write_unsigned_int(uint32_t value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(uint32_t));
 		};
 
 		size_t write_long(int64_t value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(int64_t));
 		};
 		size_t write_unsigned_long(uint64_t value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(uint64_t));
 		};
 
 		size_t write_float(float value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(float));
 		};
 		size_t write_double(double value, Endian endian = Endian::Little)
 		{
-			if (!is_endian(endian)) swap_endian(&value);
+			if (!is_endian(endian)) value = swap_endian(value);
 			return write_data(&value, sizeof(double));
 		};
 
@@ -205,5 +205,4 @@ namespace sc
 		virtual size_t read_data(void* buffer, size_t length) = 0;
 		virtual size_t write_data(const void* buffer, size_t length) = 0;
 	};
-
 }

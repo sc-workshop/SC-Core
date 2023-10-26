@@ -22,12 +22,13 @@ namespace sc
 			m_file.seekg(0, std::ios::end);
 			m_file_size = static_cast<size_t>(m_file.tellg());
 			m_file.seekg(0);
+			m_position = 0;
 		};
 		virtual ~InputFileStream()
 		{
 			if (m_data)
 			{
-				delete[] m_data;
+				free(m_data);
 			}
 		};
 
@@ -36,13 +37,13 @@ namespace sc
 		{
 			size_t saved_position = position();
 
-			m_data = new uint8_t[m_file_size];
+			m_data = malloc(m_file_size);
 
 			m_file.seekg(0);
-			read_data(m_data, m_file_size);
+			m_file.read((char*)m_data, m_file_size);
 			m_file.seekg(saved_position);
 
-			return (void*)m_data;
+			return m_data;
 		};
 
 		size_t length() const override
@@ -50,14 +51,11 @@ namespace sc
 			return m_file_size;
 		};
 
-		size_t position()
-		{
-			return static_cast<size_t>(m_file.tellg());
-		};
 		size_t position() const override
 		{
-			return this->position();
+			return m_position;
 		};
+
 		size_t seek(size_t position, Seek mode = Seek::Set) override
 		{
 			switch (mode)
@@ -91,11 +89,20 @@ namespace sc
 	protected:
 		size_t read_data(void* ptr, size_t length) override
 		{
-			size_t to_read = (position() + length) > this->length() ? this->length() - position() : length;
+			size_t result = (m_position + length) > m_file_size ? m_file_size - m_position : length;
 
-			m_file.read((char*)ptr, to_read);
+			if (!m_data)
+			{
+				m_file.read((char*)ptr, result);
+			}
+			else
+			{
+				std::memcpy(ptr, (uint8_t*)m_data + m_position, result);
+			}
 
-			return to_read;
+			m_position += result;
+
+			return result;
 		};
 
 		size_t write_data(const void* ptr, size_t length) override
@@ -105,9 +112,11 @@ namespace sc
 
 	private:
 		std::ifstream m_file;
-		size_t m_file_size;
 
-		uint8_t* m_data = nullptr;
+		size_t m_file_size;
+		size_t m_position;
+
+		void* m_data = nullptr;
 	};
 
 	class OutputFileStream : public Stream

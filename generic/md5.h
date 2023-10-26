@@ -60,7 +60,6 @@ static unsigned char PADDING[64] = {
 	(a) += (b); \
     }
 
-
 class md5
 {
 public:
@@ -76,7 +75,7 @@ public:
 	/* MD5 block update operation. Continues an MD5 message-digest
 	   operation, processing another message block, and updating the
 	   context. */
-	void update(const unsigned char* input, unsigned int inputLen)
+	void update(uint8_t* input, size_t length)
 	{
 		unsigned int i, index, partLen;
 
@@ -84,17 +83,17 @@ public:
 		index = (unsigned int)((_count >> 3) & 0x3F);
 
 		/* Update number of bits */
-		_count += ((uint64_t)inputLen << 3);
+		_count += ((uint64_t)length << 3);
 
 		partLen = 64 - index;
 
 		/* Transform as many times as possible. */
-		if (inputLen >= partLen)
+		if (length >= partLen)
 		{
 			memcpy(&_buffer[index], input, partLen);
 			transform(_state, _buffer);
 
-			for (i = partLen; i + 63 < inputLen; i += 64)
+			for (i = partLen; i + 63 < length; i += 64)
 			{
 				transform(_state, &input[i]);
 			}
@@ -107,7 +106,7 @@ public:
 		}
 
 		/* Buffer remaining input */
-		memcpy(&_buffer[index], &input[i], inputLen - i);
+		memcpy(&_buffer[index], &input[i], length - i);
 	};
 
 	/* MD5 finalization. Ends an MD5 message-digest operation, writing
