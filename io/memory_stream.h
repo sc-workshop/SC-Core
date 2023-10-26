@@ -1,13 +1,22 @@
 #pragma once
 
 #include "stream.h"
+#include "exception/MemoryAllocationException.h"
 
 namespace sc
 {
 	class MemoryStream : public Stream
 	{
 	public:
-		MemoryStream() = default;
+		MemoryStream(size_t length) : m_allocated_data((uint8_t*)malloc(length))
+		{
+			if (!m_allocated_data)
+			{
+				throw MemoryAllocationException(length);
+			}
+
+			m_data = m_allocated_data;
+		}
 
 		MemoryStream(uint8_t* data, size_t length)
 		{
@@ -19,10 +28,9 @@ namespace sc
 
 		virtual ~MemoryStream()
 		{
-			if (m_data)
+			if (m_allocated_data)
 			{
-				delete[] m_data;
-				m_data = nullptr;
+				free((void*)m_allocated_data);
 			}
 		};
 
@@ -101,7 +109,8 @@ namespace sc
 		};
 
 	private:
-		uint8_t* m_data = nullptr;
+		uint8_t* m_data;
+		uint8_t* const m_allocated_data = nullptr;
 
 		size_t m_length = 0;
 		size_t m_position = 0;
