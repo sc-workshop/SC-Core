@@ -29,7 +29,7 @@ namespace sc
         };
 
     public:
-        void write(Stream& buffer);
+        virtual void write(Stream& buffer) = 0;
 
     public:
         virtual uint16_t width() const
@@ -41,17 +41,17 @@ namespace sc
             return m_height;
         };
 
-        virtual BasePixelType base_type() const;
-        virtual ColorSpace colorspace() const;
+        virtual BasePixelType base_type() const = 0;
+        virtual ColorSpace colorspace() const  = 0;
 
-        virtual size_t data_length();
-        virtual uint8_t* data();
+        virtual size_t data_length()  = 0;
+        virtual uint8_t* data()  = 0;
 
-        virtual bool is_compressed() const;
+        virtual bool is_compressed() const  = 0;
 
     public:
         virtual Image* clone();
-        void resize(uint16_t new_width, uint16_t new_height);
+        virtual void resize(uint16_t new_width, uint16_t new_height) = 0;
 
     protected:
         uint16_t m_width = 0;
