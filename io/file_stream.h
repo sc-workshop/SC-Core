@@ -7,8 +7,9 @@
 namespace fs = std::filesystem;
 
 #include "stream.h"
-#include "../exception/io/ReadFileException.h"
-#include "../exception/io/WriteFileException.h"
+#include "memory/alloc.h"
+#include "exception/io/ReadFileException.h"
+#include "exception/io/WriteFileException.h"
 
 namespace sc
 {
@@ -37,7 +38,7 @@ namespace sc
 		{
 			size_t saved_position = position();
 
-			m_data = malloc(m_file_size);
+			m_data = memalloc(m_file_size);
 
 			m_file.seekg(0);
 			m_file.read((char*)m_data, m_file_size);

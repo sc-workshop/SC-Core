@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stream.h"
+#include "memory/alloc.h"
 #include "exception/MemoryAllocationException.h"
 
 namespace sc
@@ -8,13 +9,8 @@ namespace sc
 	class MemoryStream : public Stream
 	{
 	public:
-		MemoryStream(size_t length) : m_allocated_data((uint8_t*)malloc(length))
+		MemoryStream(size_t length) : m_allocated_data(memalloc(length))
 		{
-			if (!m_allocated_data)
-			{
-				throw MemoryAllocationException(length);
-			}
-
 			m_data = m_allocated_data;
 		}
 
