@@ -19,7 +19,13 @@ namespace sc
             RGBA = 4,
             RGB = 3,
             LA = 2,
-            L = 1
+            L = 1,
+        };
+
+        enum class ColorSpace : uint8_t
+        {
+            Linear = 0,
+            sRGB,
         };
 
     public:
@@ -35,7 +41,8 @@ namespace sc
             return m_height;
         };
 
-        virtual BasePixelType base_type();
+        virtual BasePixelType base_type() const;
+        virtual ColorSpace colorspace() const;
 
         virtual size_t data_length();
         virtual uint8_t* data();
@@ -63,16 +70,18 @@ namespace sc
     public:
         RawImage(const RawImage&) = delete;
 
-        RawImage(uint8_t* data, uint16_t width, uint16_t height, Image::BasePixelType type) : m_width(width), m_height(height), m_data(data), m_type(type)
-        {}
-
-        RawImage(uint16_t width, uint16_t height, Image::BasePixelType type) : m_width(width), m_height(height), m_type(type)
+        RawImage(uint8_t* data, uint16_t width, uint16_t height, Image::BasePixelType type, Image::ColorSpace space = Image::ColorSpace::Linear) :  m_data(data), m_type(type), m_space(space)
         {
-            m_allocated_data = memalloc((width * height) * (uint8_t)type);
-            if (!m_allocated_data)
-            {
+            m_width = width;
+            m_height = height;
+        }
 
-            }
+        RawImage(uint16_t width, uint16_t height, Image::BasePixelType type) : m_type(type)
+        {
+            m_width = width;
+            m_height = height;
+
+            m_allocated_data = memalloc((width * height) * (uint8_t)type);
             m_data = m_allocated_data;
         }
 
@@ -87,16 +96,21 @@ namespace sc
     public:
         virtual size_t data_length()
         {
-            return (m_width * m_height) * (uint8_t)m_type
+            return (m_width * m_height) * (uint8_t)m_type;
         };
         virtual uint8_t* data()
         {
             return m_data;
         };
 
-        virtual BasePixelType base_type()
+        virtual BasePixelType base_type() const
         {
             return m_type;
+        };
+
+        virtual ColorSpace colorspace() const
+        {
+            return m_space;
         };
 
         virtual bool is_compressed() const
@@ -110,12 +124,6 @@ namespace sc
             Image* result = new RawImage(m_width, m_height, m_type);
             std::memcpy(result->data(), m_data, result->data_length());
         };
-
-        virtual RawImage* clone()
-        {
-            Image* result = this->clone();
-            return (RawImage*)result;
-        }
 
         void resize(uint16_t new_width, uint16_t new_height)
         {
@@ -153,7 +161,7 @@ namespace sc
         }
 
     private:
-        uint8_t resize_rgba(uint16_t new_width, uint16_t new_height)
+        uint8_t* resize_rgba(uint16_t new_width, uint16_t new_height)
         {
             uint8_t* buffer = memalloc((new_width * new_height) * 4);
 
@@ -162,13 +170,13 @@ namespace sc
                 buffer, new_width, new_height, 0,
                 0, 0, 1, 1, NULL,
                 4, 3, STBIR_FLAG_ALPHA_PREMULTIPLIED, STBIR_TYPE_UINT8, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT,
-                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, STBIR_COLORSPACE_LINEAR
+                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, m_space == Image::ColorSpace::Linear ? STBIR_COLORSPACE_LINEAR : STBIR_COLORSPACE_SRGB
             );
 
             return buffer;
         }
 
-        uint8_t resize_rgb(uint16_t new_width, uint16_t new_height)
+        uint8_t* resize_rgb(uint16_t new_width, uint16_t new_height)
         {
             uint8_t* buffer = memalloc((new_width * new_height) * 3);
 
@@ -177,13 +185,13 @@ namespace sc
                 buffer, new_width, new_height, 0,
                 0, 0, 1, 1, NULL,
                 3, -1, 0, STBIR_TYPE_UINT8, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT,
-                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, STBIR_COLORSPACE_LINEAR
+                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, m_space == Image::ColorSpace::Linear ? STBIR_COLORSPACE_LINEAR : STBIR_COLORSPACE_SRGB
             );
 
             return buffer;
         }
 
-        uint8_t resize_la(uint16_t new_width, uint16_t new_height)
+        uint8_t* resize_la(uint16_t new_width, uint16_t new_height)
         {
             uint8_t* buffer = memalloc((new_width * new_height) * 2);
 
@@ -192,13 +200,13 @@ namespace sc
                 buffer, new_width, new_height, 0,
                 0, 0, 1, 1, NULL,
                 2, 1, STBIR_FLAG_ALPHA_PREMULTIPLIED, STBIR_TYPE_UINT8, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT,
-                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, STBIR_COLORSPACE_LINEAR
+                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, m_space == Image::ColorSpace::Linear ? STBIR_COLORSPACE_LINEAR : STBIR_COLORSPACE_SRGB
             );
 
             return buffer;
         }
 
-        uint8_t resize_l(uint16_t new_width, uint16_t new_height)
+        uint8_t* resize_l(uint16_t new_width, uint16_t new_height)
         {
             uint8_t* buffer = memalloc((new_width * new_height) * 3);
 
@@ -207,7 +215,7 @@ namespace sc
                 buffer, new_width, new_height, 0,
                 0, 0, 1, 1, NULL,
                 1, -1, 0, STBIR_TYPE_UINT8, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT,
-                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, STBIR_COLORSPACE_LINEAR
+                STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, m_space == Image::ColorSpace::Linear ? STBIR_COLORSPACE_LINEAR : STBIR_COLORSPACE_SRGB
             );
 
             return buffer;
@@ -216,7 +224,9 @@ namespace sc
 
     private:
         Image::BasePixelType m_type;
+        Image::ColorSpace m_space;
+
         uint8_t* m_data;
         uint8_t* m_allocated_data;
-    }
+    };
 }
