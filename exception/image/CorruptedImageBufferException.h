@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GeneralRuntimeException.h"
 
 namespace sc
