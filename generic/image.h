@@ -73,9 +73,6 @@ namespace sc
 
         virtual bool is_compressed() const = 0;
 
-    public:
-        virtual Image* resize(uint16_t new_width, uint16_t new_height) = 0;
-
     protected:
         uint16_t m_width = 0;
         uint16_t m_height = 0;
