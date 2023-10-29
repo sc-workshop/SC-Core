@@ -8,9 +8,9 @@ namespace sc
     public:
         RawImage(const RawImage&) = delete;
 
-        RawImage(uint8_t* data, uint16_t width, uint16_t height, Image::BasePixelType type, Image::ColorSpace space = Image::ColorSpace::Linear) : m_data(data), m_type(type), m_space(space);
+        RawImage(uint8_t* data, uint16_t width, uint16_t height, Image::BasePixelType type, Image::ColorSpace space = Image::ColorSpace::Linear);
 
-        RawImage(uint16_t width, uint16_t height, Image::BasePixelType type) : m_type(type);
+        RawImage(uint16_t width, uint16_t height, Image::BasePixelType type);
 
         ~RawImage();
 

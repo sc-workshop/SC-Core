@@ -5,10 +5,6 @@ project "SupercellCore"
     cppdialect "C++17"
 	
 	files {
-		"source/**.cpp"
-	}
-
-    includedirs
-	{
-		"include",
+		"**.h",
+		"**.cpp"
 	}
