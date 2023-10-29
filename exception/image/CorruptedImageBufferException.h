@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GeneralRuntimeException.h"
+#include "exception/GeneralRuntimeException.h"
 
 namespace sc
 {
