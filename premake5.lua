@@ -8,3 +8,8 @@ project "SupercellCore"
 		"**.h",
 		"**.cpp"
 	}
+
+    includedirs
+	{
+		"./",
+	}
