@@ -9,10 +9,10 @@ namespace sc
 		{
 			struct
 			{
-				float r, g, b, a;
+				float r, g, b;
 			};
 
-			float channels[4];
+			float channels[3];
 		};
 
 		Color(const float* arr)
@@ -20,12 +20,11 @@ namespace sc
 			memcpy(channels, arr, sizeof(channels));
 		};
 
-		Color(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 1.0f)
+		Color(float red = 0.0f, float green = 0.0f, float blue = 0.0f)
 		{
 			r = red;
 			g = green;
 			b = blue;
-			a = alpha;
 		};
 	};
 }
