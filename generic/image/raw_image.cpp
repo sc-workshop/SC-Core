@@ -1,4 +1,4 @@
-#include "generic/image/raw_image.h"
+#include "raw_image.h"
 #include "memory/alloc.h"
 
 namespace sc
