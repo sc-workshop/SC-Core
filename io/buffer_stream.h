@@ -42,7 +42,6 @@ namespace sc
 						m_buffer.size() : position));
 				break;
 			case Seek::Add:
-				m_position += position;
 				m_position = m_position + position > length() ? length() : m_position + position;
 				break;
 			default:
