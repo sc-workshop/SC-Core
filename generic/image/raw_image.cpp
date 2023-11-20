@@ -1,20 +1,42 @@
 #include "raw_image.h"
 #include "memory/alloc.h"
 
+#include "exception/image/InvaliParamsException.h"
+
 namespace sc
 {
-	RawImage::RawImage(uint8_t* data, uint16_t width, uint16_t height, Image::BasePixelType type, Image::ColorSpace space) : m_data(data), m_type(type), m_space(space)
+	RawImage::RawImage(
+		uint8_t* data,
+		uint16_t width, uint16_t height,
+		Image::BasePixelType type,
+		Image::PixelDepth depth,
+		Image::ColorSpace space
+	) : m_data(data), m_type(type), m_space(space), m_depth(depth)
 	{
+		if (!check_depth_base_type(type, depth))
+		{
+			throw InvalidParamsException();
+		}
 		m_width = width;
 		m_height = height;
 	};
 
-	RawImage::RawImage(uint16_t width, uint16_t height, Image::BasePixelType type) : m_type(type)
+	RawImage::RawImage(
+		uint16_t width, uint16_t height,
+		Image::BasePixelType type, Image::PixelDepth depth
+	) : m_type(type), m_depth(depth)
 	{
+		if (!check_depth_base_type(type, depth))
+		{
+			throw InvalidParamsException();
+		}
+
 		m_width = width;
 		m_height = height;
 
-		m_allocated_data = memalloc((width * height) * (uint8_t)type);
+		uint8_t pixel_size = PixelDepthTable[(uint16_t)depth].byte_count;
+
+		m_allocated_data = memalloc((width * height) * pixel_size);
 		m_data = m_allocated_data;
 	};
 
@@ -28,7 +50,7 @@ namespace sc
 
 	size_t RawImage::data_length()
 	{
-		return Image::calculate_image_length(m_width, m_height, m_type);
+		return Image::calculate_image_length(m_width, m_height, m_depth);
 	};
 
 	uint8_t* RawImage::data()
@@ -46,15 +68,20 @@ namespace sc
 		return m_space;
 	}
 
+	Image::PixelDepth RawImage::depth() const
+	{
+		return m_depth;
+	}
+
 	Image* RawImage::resize(uint16_t new_width, uint16_t new_height)
 	{
-		Image* image = new RawImage(new_width, new_height, m_type);
+		Image* image = new RawImage(new_width, new_height, m_type, m_depth);
 
 		Image::resize(
 			m_data, image->data(),
 			m_width, m_height,
 			new_width, new_height,
-			m_type, m_space
+			m_type, m_depth, m_space
 		);
 
 		return image;
