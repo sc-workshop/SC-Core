@@ -5,8 +5,18 @@ project "SupercellCore"
     cppdialect "C++17"
 	
 	files {
-		"./**.h",
-		"./**.cpp"
+		"exception/**.h",
+
+		"generic/**.h",
+		"generic/**.cpp",
+
+		"io/**.h",
+
+		"math/**.h",
+
+		"memory/**.h",
+
+		"stb/**.h",
 	}
 
     includedirs
