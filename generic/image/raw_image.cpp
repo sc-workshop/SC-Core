@@ -48,12 +48,12 @@ namespace sc
 		}
 	};
 
-	size_t RawImage::data_length()
+	size_t RawImage::data_length() const
 	{
 		return Image::calculate_image_length(m_width, m_height, m_depth);
 	};
 
-	uint8_t* RawImage::data()
+	uint8_t* RawImage::data() const
 	{
 		return m_data;
 	};
@@ -77,7 +77,7 @@ namespace sc
 	/// Copies data from current image to provided one and converts size, data type, etc.
 	/// </summary>
 	/// <param name="image"></param>
-	void RawImage::copy(RawImage& image)
+	void RawImage::copy(RawImage& image) const
 	{
 		size_t data_size = Image::calculate_image_length(m_width, m_height, m_depth);
 		uint8_t* data = nullptr;

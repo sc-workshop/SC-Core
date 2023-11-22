@@ -89,8 +89,8 @@ namespace sc
 		virtual ColorSpace colorspace() const = 0;
 		virtual PixelDepth depth() const = 0;
 
-		virtual size_t data_length() = 0;
-		virtual uint8_t* data() = 0;
+		virtual size_t data_length() const = 0;
+		virtual uint8_t* data() const = 0;
 
 		virtual bool is_compressed() const = 0;
 

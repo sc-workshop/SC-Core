@@ -24,8 +24,8 @@ namespace sc
 		~RawImage();
 
 	public:
-		virtual size_t data_length();
-		virtual uint8_t* data();
+		virtual size_t data_length() const;
+		virtual uint8_t* data() const;
 
 		virtual BasePixelType base_type() const;
 		virtual ColorSpace colorspace() const;
@@ -37,7 +37,7 @@ namespace sc
 		};
 
 	public:
-		void copy(RawImage& image);
+		void copy(RawImage& image) const;
 
 		void write(Stream& buffer);
 
