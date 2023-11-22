@@ -95,6 +95,8 @@ namespace sc
 			// Pixel Decoding
 			{
 				uint8_t bit_index = 0;
+
+				if (input_pixel_info.r_bits != 0xFF)
 				{
 					uint64_t r_bits_mask = (uint64_t)pow(2, input_pixel_info.r_bits) - 1;
 					r_channel = static_cast<uint8_t>(r_bits_mask & input_pixel_buffer);
@@ -134,6 +136,17 @@ namespace sc
 				}
 			}
 
+			// Some Pixel Type Specific actions
+			switch (destination)
+			{
+			case sc::Image::PixelDepth::LUMINANCE8_ALPHA8:
+			case sc::Image::PixelDepth::LUMINANCE8:
+				r_channel = (r_channel * g_channel * b_channel) / 3;
+				break;
+			default:
+				break;
+			}
+
 			// Pixel Encoding
 			{
 				uint8_t bit_index = output_pixel_info.byte_count * 8;
@@ -146,6 +159,7 @@ namespace sc
 					output_pixel_buffer |= ((a_channel & bits_mask) >> bit_offset) << bit_index;
 				}
 
+				if (output_pixel_info.r_bits != 0xFF)
 				{
 					bit_index -= output_pixel_info.r_bits;
 					int8_t bit_offset = (input_pixel_info.r_bits - output_pixel_info.r_bits) >= 0 ? input_pixel_info.r_bits - output_pixel_info.r_bits : 0;
@@ -153,6 +167,7 @@ namespace sc
 					output_pixel_buffer |= ((r_channel & bits_mask) >> bit_offset) << bit_index;
 				}
 
+				if (output_pixel_info.g_bits != 0xFF)
 				{
 					bit_index -= output_pixel_info.g_bits;
 					int8_t bit_offset = (input_pixel_info.g_bits - output_pixel_info.g_bits) >= 0 ? input_pixel_info.g_bits - output_pixel_info.g_bits : 0;
@@ -160,6 +175,7 @@ namespace sc
 					output_pixel_buffer |= ((g_channel & bits_mask) >> bit_offset) << bit_index;
 				}
 
+				if (output_pixel_info.b_bits != 0xFF)
 				{
 					bit_index -= output_pixel_info.b_bits;
 					int8_t bit_offset = (input_pixel_info.b_bits - output_pixel_info.b_bits) >= 0 ? input_pixel_info.b_bits - output_pixel_info.b_bits : 0;

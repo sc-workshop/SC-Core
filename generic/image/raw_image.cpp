@@ -130,8 +130,6 @@ namespace sc
 
 		if (image.depth() != m_depth)
 		{
-			//data = memalloc(Image::calculate_image_length(m_width, m_height, image.depth()));
-
 			Image::remap(data ? data : m_data, image.data(), image.width(), image.height(), depth, image.depth());
 		}
 	};
