@@ -8,11 +8,12 @@ namespace sc
 	//			<---------------- Const members ---------------->
 	const Image::PixelDepthInfo Image::PixelDepthTable[] =
 	{
-		{4, 8, 8, 8, 8},	//RGBA8
-		{2, 4, 4, 4, 4},	//RGBA4
-		{2, 5, 5, 5, 1},	//RGB5_A1
-		{2, 5, 6, 5, 0xFF},	//RGB565
-		{2, 8, 0xFF, 0xFF, 8},	//LUMINANCE8_ALPHA8
+		{4, 8, 8, 8, 8},			//RGBA8
+		{2, 4, 4, 4, 4},			//RGBA4
+		{2, 5, 5, 5, 1},			//RGB5_A1
+		{3, 8, 8, 8, 0xFF},			//RGB8
+		{2, 5, 6, 5, 0xFF},			//RGB565
+		{2, 8, 0xFF, 0xFF, 8},		//LUMINANCE8_ALPHA8
 		{1, 8, 0xFF, 0xFF, 0xFF},	//LUMINANCE8
 	};
 
@@ -21,6 +22,7 @@ namespace sc
 		Image::BasePixelType::RGBA, //RGBA8
 		Image::BasePixelType::RGBA,	//RGBA4
 		Image::BasePixelType::RGBA,	//RGB5_A1
+		Image::BasePixelType::RGB,	//RGB8
 		Image::BasePixelType::RGB,	//RGB565
 		Image::BasePixelType::LA,	//LUMINANCE8_ALPHA8
 		Image::BasePixelType::L,	//LUMINANCE8
@@ -45,7 +47,7 @@ namespace sc
 		uint8_t* input_data, uint8_t* output_data,
 		uint16_t width, uint16_t height,
 		uint16_t new_width, uint16_t new_height,
-		BasePixelType type, PixelDepth depth, ColorSpace space,
+		BasePixelType type, ColorSpace space,
 		bool premultiply
 	)
 	{

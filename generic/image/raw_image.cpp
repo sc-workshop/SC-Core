@@ -73,18 +73,67 @@ namespace sc
 		return m_depth;
 	}
 
-	Image* RawImage::resize(uint16_t new_width, uint16_t new_height)
+	/// <summary>
+	/// Copies data from current image to provided one and converts size, data type, etc.
+	/// </summary>
+	/// <param name="image"></param>
+	void RawImage::copy(RawImage& image)
 	{
-		Image* image = new RawImage(new_width, new_height, m_type, m_depth);
+		size_t data_size = Image::calculate_image_length(m_width, m_height, m_depth);
+		uint8_t* data = nullptr;
+		Image::PixelDepth depth = m_depth;
 
-		Image::resize(
-			m_data, image->data(),
-			m_width, m_height,
-			new_width, new_height,
-			m_type, m_depth, m_space
-		);
+		if (image.width() != m_width || image.height() != m_height)
+		{
+			uint8_t* resize_data = nullptr;
 
-		return image;
+			switch (m_depth)
+			{
+				// RGBA
+			case sc::Image::PixelDepth::RGBA4:
+			case sc::Image::PixelDepth::RGB5_A1:
+				depth = Image::PixelDepth::RGBA8;
+				break;
+
+				// RGB
+			case sc::Image::PixelDepth::RGB565:
+				depth = Image::PixelDepth::RGB8;
+				break;
+
+			case sc::Image::PixelDepth::RGB8:
+			case sc::Image::PixelDepth::LUMINANCE8_ALPHA8:
+			case sc::Image::PixelDepth::LUMINANCE8:
+			case sc::Image::PixelDepth::RGBA8:
+			default:
+				break;
+			}
+
+			if (depth != m_depth)
+			{
+				resize_data = memalloc(Image::calculate_image_length(m_width, m_height, depth));
+				Image::remap(m_data, resize_data, m_width, m_height, m_depth, depth);
+			}
+
+			data = memalloc(Image::calculate_image_length(image.width(), image.height(), depth));
+			Image::resize(
+				resize_data ? resize_data : m_data, data,
+				m_width, m_height,
+				image.width(), image.height(),
+				m_type, m_space
+			);
+
+			if (resize_data)
+			{
+				free(resize_data);
+			}
+		}
+
+		if (image.depth() != m_depth)
+		{
+			//data = memalloc(Image::calculate_image_length(m_width, m_height, image.depth()));
+
+			Image::remap(data ? data : m_data, image.data(), image.width(), image.height(), depth, image.depth());
+		}
 	};
 
 	void RawImage::write(Stream& buffer)

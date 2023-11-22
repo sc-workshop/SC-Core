@@ -40,6 +40,7 @@ namespace sc
 			RGBA8 = 0,
 			RGBA4,
 			RGB5_A1,
+			RGB8,
 			RGB565,
 			LUMINANCE8_ALPHA8,
 			LUMINANCE8
@@ -50,11 +51,24 @@ namespace sc
 
 		static bool check_depth_base_type(BasePixelType type, PixelDepth depth);
 
+		/// <summary>
+		/// !! Input Image Data depth must be RGBA8, RGB8, LA8 or L !!
+		/// </summary>
+		/// <param name="input_data"></param>
+		/// <param name="output_data"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="new_width"></param>
+		/// <param name="new_height"></param>
+		/// <param name="type"></param>
+		/// <param name="depth"></param>
+		/// <param name="space"></param>
+		/// <param name="premultiply"></param>
 		static void resize(
 			uint8_t* input_data, uint8_t* output_data,
 			uint16_t width, uint16_t height,
 			uint16_t new_width, uint16_t new_height,
-			BasePixelType type, PixelDepth depth, ColorSpace space,
+			BasePixelType type, ColorSpace space,
 			bool premultiply = true
 		);
 

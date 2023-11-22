@@ -37,7 +37,7 @@ namespace sc
 		};
 
 	public:
-		Image* resize(uint16_t new_width, uint16_t new_height);
+		void copy(RawImage& image);
 
 		void write(Stream& buffer);
 
