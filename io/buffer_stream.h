@@ -18,9 +18,14 @@ namespace sc
 		virtual ~BufferStream() = default;
 
 	public:
-		void* data() override
+		void* data() const
 		{
 			return (void*)m_buffer.data();
+		};
+
+		void* data()
+		{
+			return const_cast<void*>(const_cast<const BufferStream*>(this)->data());
 		};
 
 		size_t length() const override

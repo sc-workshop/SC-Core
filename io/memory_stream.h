@@ -31,9 +31,14 @@ namespace sc
 		};
 
 	public:
-		void* data() override
+		void* data() const
 		{
 			return (void*)m_data;
+		};
+
+		void* data()
+		{
+			return const_cast<void*>(const_cast<const MemoryStream*>(this)->data());
 		};
 
 		size_t length() const override
