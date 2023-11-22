@@ -12,8 +12,8 @@ namespace sc
 		{2, 4, 4, 4, 4},	//RGBA4
 		{2, 5, 5, 5, 1},	//RGB5_A1
 		{2, 5, 6, 5, 0xFF},	//RGB565
-		{2, 8, 0, 0, 8},	//LUMINANCE8_ALPHA8
-		{1, 8, 0, 0, 0xFF},	//LUMINANCE8
+		{2, 8, 0xFF, 0xFF, 8},	//LUMINANCE8_ALPHA8
+		{1, 8, 0xFF, 0xFF, 0xFF},	//LUMINANCE8
 	};
 
 	const Image::BasePixelType Image::PixelDepthBaseTypeTable[] =
@@ -73,78 +73,104 @@ namespace sc
 
 		for (uint64_t pixel_index = 0; pixel_count > pixel_index; pixel_index++)
 		{
-			uint64_t input_pixel_buffer;
-			uint64_t output_pixel_buffer;
+			uint32_t input_pixel_buffer = 0;
+			uint32_t output_pixel_buffer = 0;
 
 			uint8_t* input_pixel_data = input_data + (pixel_index * input_pixel_info.byte_count);
 			uint8_t* output_pixel_data = output_data + (pixel_index * output_pixel_info.byte_count);
 
-			// Copy pixel bytes to end of buffer
 			memcopy(
 				input_pixel_data,
-				&input_pixel_buffer + (sizeof(input_pixel_buffer) - input_pixel_info.byte_count),
+				(uint8_t*)(&input_pixel_buffer),
 				input_pixel_info.byte_count
 			);
 
-			uint16_t r_channel = 0;
-			uint16_t g_channel = 0;
-			uint16_t b_channel = 0;
-			uint16_t a_channel = 0;
+			uint8_t r_channel = 0;
+			uint8_t g_channel = 0;
+			uint8_t b_channel = 0;
+			uint8_t a_channel = 0;
 
-			// Pixel decoding
+			// Pixel Decoding
 			{
 				uint8_t bit_index = 0;
-
-				// Small trick for LA/L pixels. Helps for LA -> RGBA remap cases
-				uint8_t last_bits_count = 0;
 				{
-					uint64_t r_bits_mask = pow(2, input_pixel_info.r_bits) - 1;
-					r_channel = r_bits_mask & input_pixel_buffer;
-					bit_index += input_pixel_info.r_bits;
-					last_bits_count = input_pixel_info.r_bits;
-				}
-
-				{
-					uint64_t g_bits_mask = pow(
-						2,
-						input_pixel_info.g_bits ? last_bits_count = input_pixel_info.g_bits : last_bits_count
-					) - 1;
-
-					g_channel = (g_bits_mask << bit_index) & input_pixel_buffer;
+					uint64_t r_bits_mask = (uint64_t)pow(2, input_pixel_info.r_bits) - 1;
+					r_channel = static_cast<uint8_t>(r_bits_mask & input_pixel_buffer);
 					bit_index += input_pixel_info.r_bits;
 				}
 
+				if (input_pixel_info.g_bits != 0xFF)
 				{
-					uint64_t b_bits_mask = pow(
-						2,
-						input_pixel_info.b_bits ? last_bits_count = input_pixel_info.b_bits : last_bits_count
-					) - 1;
+					uint64_t g_bits_mask = (uint64_t)pow(2, input_pixel_info.g_bits) - 1;
+					g_channel = static_cast<uint8_t>(((g_bits_mask << bit_index) & input_pixel_buffer) >> bit_index);
+					bit_index += input_pixel_info.g_bits;
+				}
+				else
+				{
+					g_channel = r_channel;
+				}
 
-					b_channel = (b_bits_mask << bit_index) & input_pixel_buffer;
+				if (input_pixel_info.b_bits != 0xFF)
+				{
+					uint64_t b_bits_mask = (uint64_t)pow(2, input_pixel_info.b_bits) - 1;
+					b_channel = static_cast<uint8_t>(((b_bits_mask << bit_index) & input_pixel_buffer) >> bit_index);
 					bit_index += input_pixel_info.b_bits;
 				}
-
+				else
 				{
-					if (input_pixel_info.a_bits != 0xFF)
-					{
-						uint64_t a_bits_mask = pow(
-							2,
-							input_pixel_info.a_bits ? last_bits_count = input_pixel_info.a_bits : last_bits_count
-						) - 1;
+					b_channel = g_channel;
+				}
 
-						a_channel = (a_bits_mask << bit_index) & input_pixel_buffer;
-					}
-					else
-					{
-						a_channel = 0xFFFF;
-					}
+				if (input_pixel_info.a_bits != 0xFF)
+				{
+					uint64_t a_bits_mask = (uint64_t)pow(2, input_pixel_info.a_bits) - 1;
+					a_channel = static_cast<uint8_t>(((a_bits_mask << bit_index) & input_pixel_buffer) >> bit_index);
+				}
+				else
+				{
+					a_channel = 0xFF;
 				}
 			}
 
-			// TODO: yeah
 			// Pixel Encoding
 			{
+				uint8_t bit_index = output_pixel_info.byte_count * 8;
+
+				if (output_pixel_info.a_bits != 0xFF)
+				{
+					bit_index -= output_pixel_info.a_bits;
+					int8_t bit_offset = (input_pixel_info.a_bits - output_pixel_info.a_bits) >= 0 ? input_pixel_info.a_bits - output_pixel_info.a_bits : 0;
+					uint64_t bits_mask = (uint64_t)((pow(2, output_pixel_info.a_bits) - 1)) << bit_offset;
+					output_pixel_buffer |= ((a_channel & bits_mask) >> bit_offset) << bit_index;
+				}
+
+				{
+					bit_index -= output_pixel_info.r_bits;
+					int8_t bit_offset = (input_pixel_info.r_bits - output_pixel_info.r_bits) >= 0 ? input_pixel_info.r_bits - output_pixel_info.r_bits : 0;
+					uint64_t bits_mask = (uint64_t)((pow(2, output_pixel_info.r_bits) - 1)) << bit_offset;
+					output_pixel_buffer |= ((r_channel & bits_mask) >> bit_offset) << bit_index;
+				}
+
+				{
+					bit_index -= output_pixel_info.g_bits;
+					int8_t bit_offset = (input_pixel_info.g_bits - output_pixel_info.g_bits) >= 0 ? input_pixel_info.g_bits - output_pixel_info.g_bits : 0;
+					uint64_t bits_mask = (uint64_t)((pow(2, output_pixel_info.g_bits) - 1)) << bit_offset;
+					output_pixel_buffer |= ((g_channel & bits_mask) >> bit_offset) << bit_index;
+				}
+
+				{
+					bit_index -= output_pixel_info.b_bits;
+					int8_t bit_offset = (input_pixel_info.b_bits - output_pixel_info.b_bits) >= 0 ? input_pixel_info.b_bits - output_pixel_info.b_bits : 0;
+					uint64_t bits_mask = (uint64_t)((pow(2, output_pixel_info.b_bits) - 1)) << bit_offset;
+					output_pixel_buffer |= ((b_channel & bits_mask) >> bit_offset) << bit_index;
+				}
 			}
+
+			memcopy(
+				(uint8_t*)&output_pixel_buffer,
+				output_pixel_data,
+				output_pixel_info.byte_count
+			);
 		}
 	}
 
