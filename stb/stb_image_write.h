@@ -170,12 +170,13 @@ LICENSE
 STBIWDEF int stbi_write_jpeg_quality;
 #endif
 
+#ifdef STB_IMAGE_WRITE_IMPLEMENTATION
 #ifdef STB_IMAGE_WRITE_STATIC
 static int stbi_write_jpeg_quality = 75;
 #else
 int stbi_write_jpeg_quality = 75;
 #endif
-
+#endif
 #pragma endregion JPEG quality flag
 
 #ifndef STB_IMAGE_WRITE_STATIC  // C++ forbids static forward declarations

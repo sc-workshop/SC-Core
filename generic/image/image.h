@@ -2,8 +2,6 @@
 
 #include <stdint.h>
 #include <math.h>
-
-#include "stb/stb.h"
 #include "io/stream.h"
 
 namespace sc

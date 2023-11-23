@@ -17,6 +17,7 @@ project "SupercellCore"
 		"memory/**.h",
 
 		"stb/**.h",
+		"stb/**.cpp",
 	}
 
     includedirs

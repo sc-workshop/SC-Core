@@ -1,4 +1,5 @@
 #include "image.h"
+#include "stb/stb.h"
 
 namespace sc
 {
@@ -50,12 +51,11 @@ namespace sc
 	{
 		bool has_alpha = type == BasePixelType::LA || type == BasePixelType::RGBA;
 
-		stbir__resize_arbitrary(NULL,
+		stbir_resize_uint8_generic(
 			input_data, width, height, 0,
 			output_data, new_width, new_height, 0,
-			0, 0, 1, 1, NULL,
-			(uint8_t)type, has_alpha ? (uint8_t)type - 1 : -1, premultiply ? STBIR_FLAG_ALPHA_PREMULTIPLIED : 0, STBIR_TYPE_UINT8, STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT,
-			STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP, space == Image::ColorSpace::Linear ? STBIR_COLORSPACE_LINEAR : STBIR_COLORSPACE_SRGB
+			(uint8_t)type, has_alpha ? (uint8_t)type - 1 : -1, premultiply ? STBIR_FLAG_ALPHA_PREMULTIPLIED : 0, STBIR_EDGE_CLAMP,
+			STBIR_FILTER_DEFAULT, space == Image::ColorSpace::Linear ? STBIR_COLORSPACE_LINEAR : STBIR_COLORSPACE_SRGB, NULL
 		);
 	};
 
