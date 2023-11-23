@@ -1,7 +1,4 @@
 #include "image.h"
-#include <math.h>
-
-#include "stb/stb.h"
 
 namespace sc
 {
