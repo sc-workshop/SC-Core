@@ -143,16 +143,16 @@ namespace sc
 			switch (format)
 			{
 			case ImageFormat::PNG:
-				result = stbi_write_png_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, image.data(), 0);
+				result = stbi_write_png_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data(), 0);
 				break;
 			case sc::stb::ImageFormat::BMP:
-				result = stbi_write_bmp_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, image.data());
+				result = stbi_write_bmp_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
 				break;
 			case sc::stb::ImageFormat::TGA:
-				result = stbi_write_tga_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, image.data());
+				result = stbi_write_tga_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
 				break;
 			case sc::stb::ImageFormat::JPEG:
-				result = stbi_write_jpg_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, image.data());
+				result = stbi_write_jpg_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
 				break;
 			default:
 				break;
