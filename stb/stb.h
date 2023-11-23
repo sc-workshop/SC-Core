@@ -176,6 +176,8 @@ namespace sc
 			{
 				format = ImageFormat::BMP;
 			}
+
+			write_image(image, format, output);
 		}
 
 		void write_image(RawImage& image, ImageFormat format, Stream& output)
