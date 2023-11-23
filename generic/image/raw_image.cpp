@@ -5,6 +5,15 @@
 
 namespace sc
 {
+	/// <summary>
+	/// Initializes an object with the given parameters. Does not allocates memory.
+	/// </summary>
+	/// <param name="data"></param>
+	/// <param name="width"></param>
+	/// <param name="height"></param>
+	/// <param name="type"></param>
+	/// <param name="depth"></param>
+	/// <param name="space"></param>
 	RawImage::RawImage(
 		uint8_t* data,
 		uint16_t width, uint16_t height,
@@ -21,6 +30,13 @@ namespace sc
 		m_height = height;
 	};
 
+	/// <summary>
+	/// Initializes an object with the given parameters and allocates new memory to store image data
+	/// </summary>
+	/// <param name="width"></param>
+	/// <param name="height"></param>
+	/// <param name="type"></param>
+	/// <param name="depth"></param>
 	RawImage::RawImage(
 		uint16_t width, uint16_t height,
 		Image::BasePixelType type, Image::PixelDepth depth
