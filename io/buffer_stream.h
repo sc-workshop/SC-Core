@@ -9,6 +9,10 @@ namespace sc
 	class BufferStream : public Stream
 	{
 	public:
+		BufferStream(const BufferStream&) = delete;
+		BufferStream& operator=(const BufferStream&) = delete;
+
+	public:
 		BufferStream() = default;
 		BufferStream(int capacity)
 		{

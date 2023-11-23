@@ -9,6 +9,10 @@ namespace sc
 	class MemoryStream : public Stream
 	{
 	public:
+		MemoryStream(const MemoryStream&) = delete;
+		MemoryStream& operator=(const MemoryStream&) = delete;
+
+	public:
 		MemoryStream(size_t length) : m_allocated_data(memalloc(length))
 		{
 			m_data = m_allocated_data;
