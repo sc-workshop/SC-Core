@@ -137,6 +137,47 @@ namespace sc
 			return static_cast<int>(stream->write(data, size));
 		}
 
+		/// <summary>
+		/// Saves images depending on path extension
+		/// </summary>
+		/// <param name="image"></param>
+		/// <param name="extension"> Must be in lowercase </param>
+		/// <param name="output"></param>
+		void write_image(RawImage& image, std::string extension, Stream& output)
+		{
+			ImageFormat format = ImageFormat::PNG;
+
+			if (extension.empty())
+			{
+				extension = ".png";
+			}
+
+			if (extension.at(0) == '.')
+			{
+				extension = std::string(extension.begin() + 1, extension.end());
+			}
+
+			if (extension == "png")
+			{
+				format = ImageFormat::PNG;
+			}
+
+			if (extension == "jpg" || extension == "jpeg")
+			{
+				format = ImageFormat::JPEG;
+			}
+
+			if (extension == "tga")
+			{
+				format = ImageFormat::TGA;
+			}
+
+			if (extension == "bmp")
+			{
+				format = ImageFormat::BMP;
+			}
+		}
+
 		void write_image(RawImage& image, ImageFormat format, Stream& output)
 		{
 			uint8_t* buffer = nullptr;
