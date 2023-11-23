@@ -46,7 +46,7 @@ namespace sc
 		Image::ColorSpace m_space;
 		Image::PixelDepth m_depth;
 
-		uint8_t* m_data;
-		uint8_t* m_allocated_data;
+		uint8_t* m_data = nullptr;
+		uint8_t* m_allocated_data = nullptr;
 	};
 }
