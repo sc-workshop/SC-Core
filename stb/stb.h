@@ -63,7 +63,7 @@ namespace sc
 		{
 			Stream* stream = (sc::Stream*)user;
 
-			stream->position() == stream->length() ? -1 : 0;
+			return stream->position() == stream->length() ? -1 : 0;
 		}
 
 		const stbi_io_callbacks stbi_sc_io_callback = { &stbi_sc_io_read, &stbi_sc_io_skip, &stbi_sc_io_eof };
