@@ -83,23 +83,17 @@ namespace sc
 
 			// Image Loading
 			{
-				stbi__context ctx;
-				{
-					ctx.io = stbi_sc_io_callback;
-					ctx.io_user_data = (void*)&stream;
-					ctx.buflen = image_buffer->data_length();
-					ctx.read_from_callbacks = 1;
-					ctx.callback_already_read = 0;
-					ctx.img_buffer = ctx.img_buffer_original = image_buffer->data();
-					ctx.img_buffer_original_end = image_buffer->data() + ctx.buflen;
-				}
-
-				uint8_t* data = stbi__load_and_postprocess_8bit(&ctx, &width, &height, &channels, 0);
+				// memory usage ahhhhhh place
+				uint8_t* data = stbi_load_from_callbacks(&stbi_sc_io_callback, (void*)&stream, &width, &height, &channels, 0);
 
 				if (data == NULL)
 				{
+					delete image_buffer;
 					throw StbLoadingException(stbi_failure_reason());
 				};
+
+				memcopy(data, image_buffer->data(), image_buffer->data_length());
+				stbi_image_free(data);
 			}
 
 			*image = image_buffer;
