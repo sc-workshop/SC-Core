@@ -30,7 +30,7 @@ namespace sc
 			return stream->position() == stream->length() ? -1 : 0;
 		};
 
-		RawImage load_image(Stream& stream)
+		void load_image(Stream& stream, RawImage** image)
 		{
 			int width, height, channels;
 
@@ -70,8 +70,7 @@ namespace sc
 				break;
 			}
 
-			// TODO: Make tests in debugger around that
-			return RawImage(
+			*image = new RawImage(
 				data,
 				static_cast<uint16_t>(width), static_cast<uint16_t>(height),
 				type, depth

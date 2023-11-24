@@ -54,7 +54,7 @@ namespace sc
 		/// </summary>
 		/// <param name="stream"></param>
 		/// <returns>Loaded image</returns>
-		RawImage load_image(Stream& stream);
+		void load_image(Stream& stream, RawImage** image);
 #pragma endregion
 
 		enum class ImageFormat : uint8_t
