@@ -34,11 +34,17 @@ namespace sc
 		{
 			int width, height, channels;
 
-			uint8_t* data = (uint8_t*)stbi_load_from_callbacks(&stbi_sc_io_callback, (void*)&stream, &width, &height, &channels, 0);
-
-			if (data == NULL)
+			// Image Info
 			{
-				throw StbLoadingException(stbi_failure_reason());
+				size_t position = stream.position();
+				bool result = stbi_info_from_callbacks(&stbi_sc_io_callback, (void*)&stream, &width, &height, &channels);
+
+				if (!result)
+				{
+					throw StbLoadingException(stbi_failure_reason());
+				}
+
+				stream.seek(position);
 			}
 
 			Image::BasePixelType type = Image::BasePixelType::RGBA;
@@ -70,11 +76,33 @@ namespace sc
 				break;
 			}
 
-			*image = new RawImage(
-				data,
+			RawImage* image_buffer = new RawImage(
 				static_cast<uint16_t>(width), static_cast<uint16_t>(height),
 				type, depth
 			);
+
+			// Image Loading
+			{
+				stbi__context ctx;
+				{
+					ctx.io = stbi_sc_io_callback;
+					ctx.io_user_data = (void*)&stream;
+					ctx.buflen = image_buffer->data_length();
+					ctx.read_from_callbacks = 1;
+					ctx.callback_already_read = 0;
+					ctx.img_buffer = ctx.img_buffer_original = image_buffer->data();
+					ctx.img_buffer_original_end = image_buffer->data() + ctx.buflen;
+				}
+
+				uint8_t* data = stbi__load_and_postprocess_8bit(&ctx, &width, &height, &channels, 0);
+
+				if (data == NULL)
+				{
+					throw StbLoadingException(stbi_failure_reason());
+				};
+			}
+
+			*image = image_buffer;
 		}
 #pragma endregion
 
