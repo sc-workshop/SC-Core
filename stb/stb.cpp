@@ -8,7 +8,7 @@ namespace sc
 {
 	namespace stb
 	{
-#pragma region
+#pragma region Image Read
 		int stbi_sc_io_read(void* user, char* data, int size)
 		{
 			Stream* stream = (sc::Stream*)user;
@@ -77,9 +77,9 @@ namespace sc
 				type, depth
 			);
 		}
-#pragma endregion Image Read
+#pragma endregion
 
-#pragma region
+#pragma region Image Write
 		int stbi_sc_io_write(void* user, void* data, int size)
 		{
 			Stream* stream = (Stream*)user;
@@ -206,6 +206,6 @@ namespace sc
 			write_image(image, format, output);
 		}
 
-#pragma endregion Image Write
+#pragma endregion
 	}
 }

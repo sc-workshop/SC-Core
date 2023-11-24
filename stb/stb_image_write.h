@@ -165,7 +165,7 @@ LICENSE
 
 // Some workarounds for jpeg quality flags
 
-#pragma region
+#pragma region JPEG quality flag
 #ifndef STB_IMAGE_WRITE_STATIC
 STBIWDEF int stbi_write_jpeg_quality;
 #endif
@@ -177,7 +177,7 @@ static int stbi_write_jpeg_quality = 75;
 int stbi_write_jpeg_quality = 75;
 #endif
 #endif
-#pragma endregion JPEG quality flag
+#pragma endregion
 
 #ifndef STB_IMAGE_WRITE_STATIC  // C++ forbids static forward declarations
 STBIWDEF int stbi_write_tga_with_rle;

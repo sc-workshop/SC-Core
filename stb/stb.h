@@ -7,7 +7,7 @@
 #include "memory/alloc.h"
 #include "generic/image/raw_image.h"
 
-#pragma region
+#pragma region STB Image Defines
 #define STBIR_MALLOC(size, c) ((void)(c), sc::memalloc(size))
 #define STBIR_FREE(ptr,c)    ((void)(c), free(ptr))
 
@@ -26,9 +26,9 @@
 #define STBI_NO_STDIO
 
 #include "stb_image.h"
-#pragma endregion STB Image Defines
+#pragma endregion
 
-#pragma region
+#pragma region STB Image Write Defines
 #define STBIW_MALLOC(sz)        sc::memalloc(sz)
 #define STBIW_REALLOC(p,newsz)  realloc(p,newsz)
 #define STBIW_FREE(p)           free(p)
@@ -36,13 +36,13 @@
 #define STBI_WRITE_NO_STDIO
 
 #include "stb_image_write.h"
-#pragma endregion STB Image Write Defines
+#pragma endregion
 
 namespace sc
 {
 	namespace stb
 	{
-#pragma region
+#pragma region Image Read
 		int stbi_sc_io_read(void* user, char* data, int size);
 		void stbi_sc_io_skip(void* user, int n);
 		int stbi_sc_io_eof(void* user);
@@ -55,7 +55,7 @@ namespace sc
 		/// <param name="stream"></param>
 		/// <returns>Loaded image</returns>
 		RawImage load_image(Stream& stream);
-#pragma endregion Image Read
+#pragma endregion
 
 		enum class ImageFormat : uint8_t
 		{
@@ -65,7 +65,7 @@ namespace sc
 			JPEG
 		};
 
-#pragma region
+#pragma region Image Write
 		int stbi_sc_io_write(void* user, void* data, int size);
 
 		void write_image(RawImage& image, ImageFormat format, Stream& output);
@@ -77,6 +77,6 @@ namespace sc
 		/// <param name="extension"> Must be in lowercase </param>
 		/// <param name="output"></param>
 		void write_image(RawImage& image, std::string extension, Stream& output);
-#pragma endregion Image Write
+#pragma endregion
 	}
 }
