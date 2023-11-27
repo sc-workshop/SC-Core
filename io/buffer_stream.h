@@ -14,7 +14,7 @@ namespace sc
 
 	public:
 		BufferStream() = default;
-		BufferStream(int capacity)
+		BufferStream(size_t capacity)
 		{
 			m_buffer.resize(capacity);
 		};
