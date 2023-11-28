@@ -5,9 +5,10 @@
 
 namespace sc
 {
-	class BadFileMagicException : public GeneralRuntimeException
+	class BadMagicException : public GeneralRuntimeException
 	{
-		BadFileMagicException(uint8_t* expected_magic, uint8_t* magic, size_t size)
+	public:
+		BadMagicException(uint8_t* expected_magic, uint8_t* magic, size_t size)
 		{
 			std::stringstream message;
 			message << "Magic bytes is not same. Excepted ";
