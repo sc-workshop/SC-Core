@@ -7,9 +7,9 @@ namespace sc
 	class WriteFileException : public IOGeneralException
 	{
 	public:
-		virtual const char* what() const override
+		WriteFileException()
 		{
-			return "Failed to write data to non-writeable file";
-		};
+			m_message = "Failed to write data to non-writeable file";
+		}
 	};
 }

@@ -11,7 +11,10 @@ namespace sc
 	public:
 		virtual const char* what() const override
 		{
-			return "Unknown runtime error";
+			return m_message.c_str();
 		};
+
+	protected:
+		std::string m_message = "Unknown runtime error";
 	};
 }

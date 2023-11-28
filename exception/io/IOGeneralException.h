@@ -7,9 +7,9 @@ namespace sc
 	class IOGeneralException : public GeneralRuntimeException
 	{
 	public:
-		virtual const char* what() const override
+		IOGeneralException()
 		{
-			return "Failed to make I/O operation";
-		};
+			m_message = "Failed to make I/O operation";
+		}
 	};
 }

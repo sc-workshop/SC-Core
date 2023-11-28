@@ -7,9 +7,9 @@ namespace sc
 	class ReadFileException : public IOGeneralException
 	{
 	public:
-		virtual const char* what() const override
+		ReadFileException()
 		{
-			return "Failed to read data from non-readable file";
-		};
+			m_message = "Failed to read data from non-readable file";
+		}
 	};
 }

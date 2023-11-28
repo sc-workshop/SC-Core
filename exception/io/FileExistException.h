@@ -8,19 +8,11 @@ namespace sc
 	class FileExistException : public IOGeneralException
 	{
 	public:
-		FileExistException(const std::filesystem::path& path) : m_path(path.string())
-		{
-		}
-
-	public:
-		virtual const char* what() const override
+		FileExistException(const std::filesystem::path& path)
 		{
 			std::stringstream message;
-			message << "File does not exist: " << m_path;
-			return message.str().c_str();
-		};
-
-	private:
-		const std::string m_path;
+			message << "File does not exist: " << path;
+			m_message = message.str();
+		}
 	};
 }
