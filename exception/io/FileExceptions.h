@@ -15,4 +15,7 @@ namespace sc
 			m_message = message.str();
 		}
 	};
+
+	SC_CONSTRUCT_CHILD_EXCEPTION(IOGeneralException, ReadFileException, "Failed to read data from non-readable file");
+	SC_CONSTRUCT_CHILD_EXCEPTION(IOGeneralException, WriteFileException, "Failed to write data to non-writeable file");
 }
