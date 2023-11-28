@@ -8,8 +8,7 @@ namespace fs = std::filesystem;
 
 #include "stream.h"
 #include "memory/alloc.h"
-#include "exception/io/ReadFileException.h"
-#include "exception/io/WriteFileException.h"
+#include "exception/io/FileExceptions.h"
 
 namespace sc
 {
