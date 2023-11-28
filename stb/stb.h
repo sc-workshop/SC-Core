@@ -1,7 +1,6 @@
 #pragma once
 
-#include "exception/image/StbLoadingException.h"
-#include "exception/image/StbWritingException.h"
+#include "exception/image/StbExceptions.h"
 
 #include "io/stream.h"
 #include "memory/alloc.h"

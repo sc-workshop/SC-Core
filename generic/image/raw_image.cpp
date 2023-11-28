@@ -1,7 +1,7 @@
 #include "raw_image.h"
 #include "memory/alloc.h"
 
-#include "exception/image/InvaliParamsException.h"
+#include "exception/image/BasicExceptions.h"
 
 namespace sc
 {
@@ -24,7 +24,7 @@ namespace sc
 	{
 		if (!check_depth_base_type(type, depth))
 		{
-			throw InvalidParamsException();
+			throw ImageInvalidParamsException();
 		}
 		m_width = width;
 		m_height = height;
@@ -44,7 +44,7 @@ namespace sc
 	{
 		if (!check_depth_base_type(type, depth))
 		{
-			throw InvalidParamsException();
+			throw ImageInvalidParamsException();
 		}
 
 		m_width = width;
