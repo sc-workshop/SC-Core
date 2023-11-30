@@ -3,24 +3,25 @@
 
 namespace sc
 {
+	template <typename T = float>
 	struct Color
 	{
 		union
 		{
 			struct
 			{
-				float r, g, b;
+				T r, g, b;
 			};
 
-			float channels[3];
+			T channels[3];
 		};
 
-		Color(const float* arr)
+		Color(const T* arr)
 		{
 			memcpy(channels, arr, sizeof(channels));
 		};
 
-		Color(float red = 0.0f, float green = 0.0f, float blue = 0.0f)
+		Color(T red = 0.0f, T green = 0.0f, T blue = 0.0f)
 		{
 			r = red;
 			g = green;

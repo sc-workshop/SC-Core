@@ -3,44 +3,45 @@
 
 namespace sc
 {
+	template <typename T = float>
 	struct Point
 	{
 		union
 		{
 			struct
 			{
-				float x, y;
+				T x, y;
 			};
 
 			struct
 			{
-				float u, v;
+				T u, v;
 			};
 
 			struct
 			{
-				float s, t;
+				T s, t;
 			};
 
 			struct
 			{
-				float r, g;
+				T r, g;
 			};
 
 			struct
 			{
-				float l, a;
+				T l, a;
 			};
 
-			float coords[2];
+			T coords[2];
 		};
 
-		Point(const float* arr)
+		Point(const T* arr)
 		{
 			memcpy(coords, arr, sizeof(coords));
 		}
 
-		Point(float a = 0.0f, float b = 0.0f)
+		Point(T a = 0.0f, T b = 0.0f)
 		{
 			x = a;
 			y = b;
