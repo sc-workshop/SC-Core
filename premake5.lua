@@ -1,4 +1,4 @@
-project "SupercellCore"
+project "Core"
     kind "StaticLib"
 
     language "C++"
