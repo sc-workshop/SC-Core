@@ -43,7 +43,7 @@ workspace "SupercelllCore"
 
         links 
         {
-            "SupercellCore"
+            "Core"
         }
 
         includedirs

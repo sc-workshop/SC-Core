@@ -15,6 +15,7 @@ project "Core"
 		"math/**.h",
 
 		"memory/**.h",
+		"memory/**.cpp",
 
 		"stb/**.h",
 		"stb/**.cpp",
