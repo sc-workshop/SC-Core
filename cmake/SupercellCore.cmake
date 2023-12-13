@@ -50,16 +50,6 @@ set(Core_Headers
 add_library("SupercellCore" STATIC ${Core_Sources} ${Core_Headers})
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${Core_Sources} ${Core_Headers})
 
-# Global Constants
-set(sc_gnu_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},GNU>" CACHE INTERNAL "")
-set(sc_gnu_apple_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},AppleClang>" CACHE INTERNAL "")
-set(sc_msvc_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},MSVC>" CACHE INTERNAL "")
-
-set(sc_gnu "$<OR:${sc_gnu_fe},${sc_gnu_apple_fe}>" CACHE INTERNAL "")
-set(sc_msvc "$<AND:${sc_msvc_fe},$<CXX_COMPILER_ID:MSVC>>" CACHE INTERNAL "")
-set(sc_debug "$<CONFIG:DEBUG>" CACHE INTERNAL "")
-
-# Macroses
 function(sc_core_base_setup project_name)
 
   target_compile_options(${project_name} PRIVATE

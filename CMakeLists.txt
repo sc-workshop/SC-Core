@@ -1,7 +1,9 @@
 ﻿cmake_minimum_required(VERSION 3.26)
+
+include(cmake/constants.cmake)
 include(cmake/SupercellCore.cmake)
 
-# # Options
+# Options
 option(SC_CORE_TEST "Build Core Test" ON)
 
 project("SupercelllCore")
