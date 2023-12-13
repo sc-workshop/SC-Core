@@ -1,4 +1,6 @@
-﻿# Base Prepare
+﻿include(cmake/constants.cmake)
+
+# Base Prepare
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -53,14 +55,14 @@ source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${Core_Sources} ${Core_Headers})
 function(sc_core_base_setup project_name)
 
   target_compile_options(${project_name} PRIVATE
-    $<${sc_msvc}:/W4 /WX>
+    $<${SC_MSVC}:/W4 /WX>
 
-    $<${sc_gnu}:-Wall -Wextra -Wpedantic -Werror>
+    $<${SC_GNU}:-Wall -Wextra -Wpedantic -Werror>
   )
 
   add_compile_definitions(
-    $<${sc_msvc}:SC_MSVC>
-    $<${sc_debug}:SC_DEBUG>
+    $<${SC_MSVC}:SC_MSVC>
+    $<${SC_DEBUG}:SC_DEBUG>
   )
 
   target_compile_features(${project_name}
