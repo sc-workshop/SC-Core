@@ -4,7 +4,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Core Files
-set(CoreSources
+set(Core_Sources
   "source/generic/image/image.cpp"
   "source/generic/image/raw_image.cpp"
 
@@ -13,7 +13,7 @@ set(CoreSources
   "source/stb/stb.cpp"
 )
 
-set(CoreHeaders
+set(Core_Headers
   "include/exception/GeneralRuntimeException.h"
   "include/exception/MemoryAllocationException.h"
   "include/exception/image/BasicExceptions.h"
@@ -47,8 +47,8 @@ set(CoreHeaders
   "include/stb/stb_image_write.h"
 )
 
-add_library("SupercellCore" STATIC ${CoreSources} ${CoreHeaders})
-source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${CoreSources} ${CoreHeaders})
+add_library("SupercellCore" STATIC ${Core_Sources} ${Core_Headers})
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${Core_Sources} ${Core_Headers})
 
 # Global Constants
 set(sc_gnu_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},GNU>" CACHE INTERNAL "")
@@ -82,10 +82,6 @@ function(sc_core_base_setup project_name)
     PUBLIC
     "include/"
   )
-
- #if(NOT "${project_name}" EQUAL "SupercellCore")
- #  target_link_libraries(${project_name} SupercellCore)
- #endif()
 
 endfunction()
 
