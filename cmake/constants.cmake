@@ -9,8 +9,8 @@ set_global(SC_MSVC_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},MSVC>")
 
 set_global(SC_GNU "$<OR:${SC_GNU_fe},${SC_GNU_APPLE_fe}>")
 set_global(SC_MSVC "$<AND:${SC_MSVC_fe},$<CXX_COMPILER_ID:MSVC>>")
-set_global(SC_DEBUG "$<CONFIG:DEBUG>")
-set_global(SC_RELEASE "$<NOT:%<SC_DEBUG>")
+set_global(SC_DEBUG "$<CONFIG:Debug>")
+set_global(SC_RELEASE "$<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>,$<CONFIG:MinSizeRel>")
 
 set_global(SC_X86_64 "$<CMAKE_SYSTEM_PROCESSOR:x86_64>")
 set_global(SC_AARCH64 "$<CMAKE_SYSTEM_PROCESSOR:aarch64>")

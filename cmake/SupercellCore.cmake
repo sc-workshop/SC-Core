@@ -53,7 +53,6 @@ add_library("SupercellCore" STATIC ${Core_Sources} ${Core_Headers})
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${Core_Sources} ${Core_Headers})
 
 function(sc_core_base_setup project_name)
-
   target_compile_options(${project_name} PRIVATE
     $<${SC_MSVC}:/W4 /WX>
 
@@ -74,7 +73,6 @@ function(sc_core_base_setup project_name)
     PUBLIC
     "include/"
   )
-
 endfunction()
 
 sc_core_base_setup("SupercellCore")
