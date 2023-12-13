@@ -1,4 +1,4 @@
-#include "MemoryPool.h"
+#include "memory/Allocator/STL/MemoryPool.h"
 #include <iostream>
 
 namespace sc
@@ -56,7 +56,7 @@ namespace sc
 			return static_cast<void*>(reinterpret_cast<char*>(curr) + sizeof(block));
 		}
 
-		void MemoryPool::deallocate(void* ptr, size_t sz) {
+		void MemoryPool::deallocate(void* ptr, size_t) {
 			// pointer is inside memory pool
 			if (m_pool < ptr && ptr < (void*)((char*)m_pool + m_pool_size)) {
 				block_ptr curr = reinterpret_cast<block_ptr>(static_cast<char*>(ptr) - sizeof(block));

@@ -1,9 +1,9 @@
-#include "image.h"
+#include "generic/image/image.h"
 #include "stb/stb.h"
 
 namespace sc
 {
-	//			<---------------- Const members ---------------->
+#pragma region Constants
 	const Image::PixelDepthInfo Image::PixelDepthTable[] =
 	{
 		{4, 8, 8, 8, 8},			//RGBA8
@@ -25,7 +25,9 @@ namespace sc
 		Image::BasePixelType::LA,	//LUMINANCE8_ALPHA8
 		Image::BasePixelType::L,	//LUMINANCE8
 	};
+#pragma endregion
 
+#pragma region Static Functions
 	//			<---------------- Static members ---------------->
 	size_t Image::calculate_image_length(uint16_t width, uint16_t height, PixelDepth depth)
 	{
@@ -39,8 +41,8 @@ namespace sc
 
 		return depth_base_type == type;
 	}
+#pragma endregion
 
-	//			<---------------- Function declarations ---------------->
 	void Image::resize(
 		uint8_t* input_data, uint8_t* output_data,
 		uint16_t width, uint16_t height,

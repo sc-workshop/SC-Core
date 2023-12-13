@@ -1,0 +1,94 @@
+﻿# Base Prepare
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# Core Files
+set(CoreSources
+  "source/generic/image/image.cpp"
+  "source/generic/image/raw_image.cpp"
+
+  "source/memory/Allocator/STL/MemoryPool.cpp"
+
+  "source/stb/stb.cpp"
+)
+
+set(CoreHeaders
+  "include/exception/GeneralRuntimeException.h"
+  "include/exception/MemoryAllocationException.h"
+  "include/exception/image/BasicExceptions.h"
+  "include/exception/image/StbExceptions.h"
+  "include/exception/io/BinariesExceptions.h"
+  "include/exception/io/FileExceptions.h"
+  "include/exception/io/IOGeneralException.h"
+
+  "include/generic/image/raw_image.h"
+  "include/generic/md5.h"
+  "include/generic/ref.h"
+
+  "include/io/buffer_stream.h"
+  "include/io/endian.h"
+  "include/io/file_stream.h"
+  "include/io/memory_stream.h"
+  "include/io/stream.h"
+
+  "include/math/alpha_color.h"
+  "include/math/color.h"
+  "include/math/matrix2x3.h"
+  "include/math/point.h"
+  "include/math/rect.h"
+
+  "include/memory/Allocator/STL/MemoryPool.h"
+  "include/memory/alloc.h"
+
+  "include/stb/stb.h"
+  "include/stb/stb_image.h"
+  "include/stb/stb_image_resize.h"
+  "include/stb/stb_image_write.h"
+)
+
+add_library("SupercellCore" STATIC ${CoreSources} ${CoreHeaders})
+source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${CoreSources} ${CoreHeaders})
+
+# Global Constants
+set(sc_gnu_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},GNU>" CACHE INTERNAL "")
+set(sc_gnu_apple_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},AppleClang>" CACHE INTERNAL "")
+set(sc_msvc_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},MSVC>" CACHE INTERNAL "")
+
+set(sc_gnu "$<OR:${sc_gnu_fe},${sc_gnu_apple_fe}>" CACHE INTERNAL "")
+set(sc_msvc "$<AND:${sc_msvc_fe},$<CXX_COMPILER_ID:MSVC>>" CACHE INTERNAL "")
+set(sc_debug "$<CONFIG:DEBUG>" CACHE INTERNAL "")
+
+# Macroses
+function(sc_core_base_setup project_name)
+
+  target_compile_options(${project_name} PRIVATE
+    $<${sc_msvc}:/W4 /WX>
+
+    $<${sc_gnu}:-Wall -Wextra -Wpedantic -Werror>
+  )
+
+  add_compile_definitions(
+    $<${sc_msvc}:SC_MSVC>
+    $<${sc_debug}:SC_DEBUG>
+  )
+
+  target_compile_features(${project_name}
+    PRIVATE
+    cxx_std_17
+  )
+
+  target_include_directories(${project_name}
+    PUBLIC
+    "include/"
+  )
+
+ #if(NOT "${project_name}" EQUAL "SupercellCore")
+ #  target_link_libraries(${project_name} SupercellCore)
+ #endif()
+
+endfunction()
+
+sc_core_base_setup("SupercellCore")
+
+# # TODO: Test this all on Linux

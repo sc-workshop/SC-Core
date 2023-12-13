@@ -18,7 +18,7 @@ public: \
 
 namespace sc
 {
-	class GeneralRuntimeException : std::exception
+	class GeneralRuntimeException : public std::exception
 	{
 	public:
 		virtual const char* what() const override

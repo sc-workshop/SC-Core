@@ -2,7 +2,14 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 
-#include "stb.h"
+#ifdef SC_MSVC
+
+// Types cast warning
+#pragma warning(disable:4244)
+
+#endif
+
+#include "stb/stb.h"
 
 namespace sc
 {

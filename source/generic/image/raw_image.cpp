@@ -1,4 +1,4 @@
-#include "raw_image.h"
+#include "generic/image/raw_image.h"
 #include "memory/alloc.h"
 
 #include "exception/image/BasicExceptions.h"

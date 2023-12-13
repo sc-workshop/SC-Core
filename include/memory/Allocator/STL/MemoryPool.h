@@ -57,7 +57,7 @@ namespace sc
 			// constructors and destructors
 			MemoryPoolAllocator() = default;
 			MemoryPoolAllocator(const MemoryPoolAllocator&) {}
-			template <typename U> MemoryPoolAllocator(const MemoryPoolAllocator<U, S>& other) {}
+			template <typename U> MemoryPoolAllocator(const MemoryPoolAllocator<U, S>&) {}
 			// explicitly note that assignment operator is not needed
 			MemoryPoolAllocator& operator=(const MemoryPoolAllocator&) = delete;
 			~MemoryPoolAllocator() = default;
