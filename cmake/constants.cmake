@@ -12,7 +12,7 @@ set_global(SC_MSVC "$<AND:${SC_MSVC_fe},$<CXX_COMPILER_ID:MSVC>>")
 set_global(SC_DEBUG "$<CONFIG:Debug>")
 set_global(SC_RELEASE "$<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>,$<CONFIG:MinSizeRel>")
 
-set_global(SC_X86_64 "$<CMAKE_SYSTEM_PROCESSOR:x86_64>")
-set_global(SC_AARCH64 "$<CMAKE_SYSTEM_PROCESSOR:aarch64>")
+set_global(SC_X86_64 "$<STREQUAL:${CMAKE_SYSTEM_PROCESSOR},x86_64>")
+set_global(SC_AARCH64 "$<STREQUAL:${CMAKE_SYSTEM_PROCESSOR},aarch64>")
 
 set_global(SC_X64 "$<OR:${SC_X86_64},${SC_AARCH64}>")
