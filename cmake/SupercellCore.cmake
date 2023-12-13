@@ -59,7 +59,7 @@ function(sc_core_base_setup project_name)
     $<${SC_GNU}:-Wall -Wextra -Wpedantic -Werror>
   )
 
-  add_compile_definitions(
+  target_compile_definitions(${project_name}
     $<${SC_MSVC}:SC_MSVC>
     $<${SC_DEBUG}:SC_DEBUG>
   )
