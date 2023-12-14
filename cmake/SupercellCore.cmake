@@ -54,7 +54,7 @@ source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${Core_Sources} ${Core_Headers})
 
 function(sc_core_base_setup project_name)
   target_compile_options(${project_name} PRIVATE
-    $<${SC_MSVC}:/W4 /WX /O2 /Ob2 /Oi /Ot>
+    $<$<AND:${SC_MSVC},${SC_RELEASE}>: /W4 /WX /Ox /GF /Gy /GS- /Ob2 /Oi /Ot>
 
     $<${SC_GNU}:-Wall -Wextra -Wpedantic -Werror>
   )
