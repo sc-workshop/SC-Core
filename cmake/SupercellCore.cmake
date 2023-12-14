@@ -5,6 +5,8 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # Core Files
 set(Core_Sources
   "source/generic/image/image.cpp"
@@ -51,6 +53,14 @@ set(Core_Headers
 
 add_library("SupercellCore" STATIC ${Core_Sources} ${Core_Headers})
 source_group(TREE ${CMAKE_SOURCE_DIR} FILES ${Core_Sources} ${Core_Headers})
+set_target_properties("SupercellCore" PROPERTIES
+  FOLDER Supercell
+)
+
+target_include_directories("SupercellCore"
+  PUBLIC
+  "include/"
+)
 
 function(sc_core_base_setup project_name)
   target_compile_options(${project_name} PRIVATE
@@ -67,11 +77,6 @@ function(sc_core_base_setup project_name)
   target_compile_features(${project_name}
     PRIVATE
     cxx_std_17
-  )
-
-  target_include_directories(${project_name}
-    PUBLIC
-    "include/"
   )
 endfunction()
 

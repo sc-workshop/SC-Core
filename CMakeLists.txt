@@ -14,4 +14,7 @@ if(${SC_CORE_TEST})
 
   sc_core_base_setup("SupercellCoreTest")
   target_link_libraries("SupercellCoreTest" PUBLIC SupercellCore)
+  set_target_properties("SupercellCoreTest" PROPERTIES
+    FOLDER Supercell/CLI
+  )
 endif()

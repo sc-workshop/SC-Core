@@ -109,7 +109,7 @@ namespace sc
 			return result;
 		};
 
-		size_t write_data(const void* ptr, size_t length) override
+		size_t write_data(const void*, size_t) override
 		{
 			throw WriteFileException();
 		};
@@ -186,7 +186,7 @@ namespace sc
 		};
 
 	protected:
-		size_t read_data(void* ptr, size_t length) override
+		size_t read_data(void*, size_t) override
 		{
 			throw ReadFileException();
 		};
