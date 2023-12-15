@@ -8,7 +8,7 @@ namespace sc
 	class BadMagicException : public GeneralRuntimeException
 	{
 	public:
-		BadMagicException(uint8_t* expected_magic, uint8_t* magic, size_t size)
+		BadMagicException(uint8_t* expected_magic, uint8_t* magic, size_t size) : GeneralRuntimeException("BadMagicException")
 		{
 			std::stringstream message;
 			message << "Magic bytes is not same. Excepted ";

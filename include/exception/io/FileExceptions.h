@@ -8,7 +8,7 @@ namespace sc
 	class FileExistException final : public IOGeneralException
 	{
 	public:
-		FileExistException(const std::filesystem::path& path) : IOGeneralException("FileExistException", 1)
+		FileExistException(const std::filesystem::path& path) : IOGeneralException("FileExistException")
 		{
 			std::stringstream message;
 			message << "File does not exist: " << path;
