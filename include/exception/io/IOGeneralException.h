@@ -4,12 +4,5 @@
 
 namespace sc
 {
-	class IOGeneralException : public GeneralRuntimeException
-	{
-	public:
-		IOGeneralException()
-		{
-			m_message = "Failed to make I/O operation";
-		}
-	};
+	SC_CONSTRUCT_PARENT_EXCEPTION(GeneralRuntimeException, IOGeneralException, "Failed to make I/O operation");
 }

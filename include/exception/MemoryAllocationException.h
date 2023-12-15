@@ -6,10 +6,10 @@
 
 namespace sc
 {
-	class MemoryAllocationException : public GeneralRuntimeException
+	class MemoryAllocationException final : public GeneralRuntimeException
 	{
 	public:
-		MemoryAllocationException(const size_t& bytes)
+		MemoryAllocationException(const size_t& bytes) : GeneralRuntimeException("MemoryAllocationException", 1)
 		{
 			std::stringstream message;
 			message << "Failed to allocate " << std::to_string(bytes) << " bytes of memory";

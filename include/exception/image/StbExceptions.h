@@ -7,7 +7,7 @@ namespace sc
 	class StbLoadingException : public GeneralRuntimeException
 	{
 	public:
-		StbLoadingException(const char* reason)
+		StbLoadingException(const char* reason) : GeneralRuntimeException("StbLoadingException", 1)
 		{
 			std::stringstream message;
 			message << "Failed to load stb image: ";

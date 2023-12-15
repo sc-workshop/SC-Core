@@ -1,5 +1,8 @@
 macro(set_global var_name var_value)
     set(${var_name} ${var_value} CACHE INTERNAL "")
+    add_compile_definitions(
+        ${var_name}=${var_value}
+    )
 endmacro()
 
 set_global(SC_GNU_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},GNU>")

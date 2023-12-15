@@ -1,4 +1,5 @@
 ﻿include(cmake/constants.cmake)
+include(FetchContent)
 
 # Base Prepare
 if(NOT CMAKE_BUILD_TYPE)
@@ -81,5 +82,22 @@ function(sc_core_base_setup project_name)
 endfunction()
 
 sc_core_base_setup("SupercellCore")
+
+set(CPPTRACE_STATIC ON)
+
+FetchContent_Declare(
+  cpptrace
+  GIT_REPOSITORY "https://github.com/jeremy-rifkin/cpptrace.git"
+  GIT_TAG ab389c36bd14ab0d3a3cfef5d4916d1c513955c6 # 0.3.1
+)
+FetchContent_MakeAvailable(cpptrace)
+
+target_link_libraries("SupercellCore"
+  cpptrace::cpptrace
+)
+
+set_target_properties("cpptrace-lib" PROPERTIES
+  FOLDER Debug
+)
 
 # # TODO: Test this all on Linux
