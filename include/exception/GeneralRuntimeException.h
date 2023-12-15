@@ -20,8 +20,7 @@ public: \
 class Name : public Parent \
 { \
 public: \
-	Name() = delete; \
-	Name(const char* type_name, uint16_t call_offset = 1) : Parent(type_name, call_offset) \
+	Name(const char* type_name = nullptr, uint16_t call_offset = 1) : Parent(type_name == nullptr ? #Name : type_name, call_offset) \
 	{ \
 		m_message = BaseMessage; \
 	} \
