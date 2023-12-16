@@ -1,3 +1,0 @@
-[submodule "trace"]
-	path = trace
-	url = https://github.com/jeremy-rifkin/cpptrace/
