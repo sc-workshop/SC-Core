@@ -95,9 +95,9 @@ namespace sc
 					{
 						message << "0x";
 
-						for (size_t i = 0; sizeof(cpptrace::frame_ptr) > i; i++)
+						for (size_t t = 0; sizeof(cpptrace::frame_ptr) > t; t++)
 						{
-							message << std::setfill('0') << std::setw(2) << std::hex << (0xff & (unsigned int)*(&frame.address + i));
+							message << std::setfill('0') << std::setw(2) << std::hex << (0xff & (unsigned int)*(&frame.address + t));
 						}
 					}
 
