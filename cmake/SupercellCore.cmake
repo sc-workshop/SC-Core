@@ -70,11 +70,6 @@ function(sc_core_base_setup project_name)
     $<${SC_GNU}:-Wall -Wextra -Wpedantic -Werror>
   )
 
-  target_compile_definitions(${project_name} PRIVATE
-    $<${SC_MSVC}:SC_MSVC>
-    $<${SC_DEBUG}:SC_DEBUG>
-  )
-
   target_compile_features(${project_name}
     PRIVATE
     cxx_std_17
