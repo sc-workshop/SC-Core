@@ -16,6 +16,8 @@ set(Core_Sources
   "source/memory/Allocator/STL/MemoryPool.cpp"
 
   "source/stb/stb.cpp"
+
+  "source/logger/time.cpp"
 )
 
 set(Core_Headers
@@ -50,6 +52,8 @@ set(Core_Headers
   "include/stb/stb_image.h"
   "include/stb/stb_image_resize.h"
   "include/stb/stb_image_write.h"
+
+  "include/logger/time.h"
 )
 
 add_library("SupercellCore" STATIC ${Core_Sources} ${Core_Headers})

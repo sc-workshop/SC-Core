@@ -11,7 +11,7 @@ namespace sc
 			m_pool = operator new(m_pool_size);
 			// succeess create the pool
 			if (m_pool != nullptr) {
-				for (auto i = 0; i < m_block_num; ++i) {
+				for (size_t i = 0; i < m_block_num; ++i) {
 					block_ptr curr = reinterpret_cast<block_ptr>(static_cast<char*>(m_pool) + i * (m_block_size + sizeof(block)));
 
 					// insert curr into free blocks linked list
