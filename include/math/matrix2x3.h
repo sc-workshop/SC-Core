@@ -1,6 +1,11 @@
 #pragma once
 #include <cstring>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4201)
+#endif
+
 namespace sc
 {
 	template <typename T = float>
@@ -8,12 +13,7 @@ namespace sc
 	{
 		union
 		{
-			struct
-			{
-				T a, b;
-				T c, d;
-				T tx, ty;
-			};
+			T a, b, c, d, tx, ty;
 
 			T elements[6];
 		};
@@ -43,3 +43,7 @@ namespace sc
 		};
 	};
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
