@@ -26,7 +26,6 @@ namespace sc
 			m_file.seekg(0, std::ios::end);
 			m_file_size = static_cast<size_t>(m_file.tellg());
 			m_file.seekg(0);
-			m_position = 0;
 		};
 		virtual ~InputFileStream()
 		{
@@ -57,7 +56,7 @@ namespace sc
 
 		size_t position() const override
 		{
-			return m_position;
+			return m_file.tellg();
 		};
 
 		size_t seek(size_t position, Seek mode = Seek::Set) override
@@ -93,7 +92,7 @@ namespace sc
 	protected:
 		size_t read_data(void* ptr, size_t length) override
 		{
-			size_t result = (m_position + length) > m_file_size ? m_file_size - m_position : length;
+			size_t result = (position() + length) > m_file_size ? m_file_size - position() : length;
 
 			if (!m_data)
 			{
@@ -101,10 +100,8 @@ namespace sc
 			}
 			else
 			{
-				std::memcpy(ptr, (uint8_t*)m_data + m_position, result);
+				std::memcpy(ptr, (uint8_t*)m_data + position(), result);
 			}
-
-			m_position += result;
 
 			return result;
 		};
@@ -115,10 +112,9 @@ namespace sc
 		};
 
 	private:
-		std::ifstream m_file;
+		mutable std::ifstream m_file;
 
 		size_t m_file_size;
-		size_t m_position;
 
 		void* m_data = nullptr;
 	};
@@ -203,7 +199,7 @@ namespace sc
 		};
 
 	private:
-		std::ofstream m_file;
+		mutable std::ofstream m_file;
 		size_t m_file_size;
 	};
 }
