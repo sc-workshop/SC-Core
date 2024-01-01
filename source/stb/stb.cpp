@@ -54,28 +54,23 @@ namespace sc
 				stream.seek(position);
 			}
 
-			Image::BasePixelType type = Image::BasePixelType::RGBA;
 			Image::PixelDepth depth = Image::PixelDepth::RGB8;
 
 			switch (channels)
 			{
 			case 1:
-				type = Image::BasePixelType::L;
 				depth = Image::PixelDepth::LUMINANCE8;
 				break;
 
 			case 2:
-				type = Image::BasePixelType::LA;
 				depth = Image::PixelDepth::LUMINANCE8_ALPHA8;
 				break;
 
 			case 3:
-				type = Image::BasePixelType::RGB;
 				depth = Image::PixelDepth::RGB8;
 				break;
 
 			case 4:
-				type = Image::BasePixelType::RGBA;
 				depth = Image::PixelDepth::RGBA8;
 				break;
 
@@ -85,7 +80,7 @@ namespace sc
 
 			RawImage* image_buffer = new RawImage(
 				static_cast<uint16_t>(width), static_cast<uint16_t>(height),
-				type, depth
+				depth, Image::ColorSpace::sRGB
 			);
 
 			// Image Loading
