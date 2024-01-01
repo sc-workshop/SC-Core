@@ -11,23 +11,18 @@ namespace sc
 	/// <param name="data"></param>
 	/// <param name="width"></param>
 	/// <param name="height"></param>
-	/// <param name="type"></param>
 	/// <param name="depth"></param>
 	/// <param name="space"></param>
 	RawImage::RawImage(
 		uint8_t* data,
 		uint16_t width, uint16_t height,
-		Image::BasePixelType type,
 		Image::PixelDepth depth,
 		Image::ColorSpace space
-	) : m_data(data), m_type(type), m_space(space), m_depth(depth)
+	) : m_data(data), m_space(space), m_depth(depth)
 	{
-		if (!check_depth_base_type(type, depth))
-		{
-			throw ImageInvalidParamsException();
-		}
 		m_width = width;
 		m_height = height;
+		m_type = Image::PixelDepthBaseTypeTable[(uint8_t)depth];
 	};
 
 	/// <summary>
@@ -35,20 +30,16 @@ namespace sc
 	/// </summary>
 	/// <param name="width"></param>
 	/// <param name="height"></param>
-	/// <param name="type"></param>
 	/// <param name="depth"></param>
+	/// <param name="space"></param>
 	RawImage::RawImage(
 		uint16_t width, uint16_t height,
-		Image::BasePixelType type, Image::PixelDepth depth
-	) : m_type(type), m_depth(depth)
+		Image::PixelDepth depth, Image::ColorSpace space
+	) : m_depth(depth), m_space(space)
 	{
-		if (!check_depth_base_type(type, depth))
-		{
-			throw ImageInvalidParamsException();
-		}
-
 		m_width = width;
 		m_height = height;
+		m_type = Image::PixelDepthBaseTypeTable[(uint8_t)depth];
 
 		uint8_t pixel_size = PixelDepthTable[(uint16_t)depth].byte_count;
 

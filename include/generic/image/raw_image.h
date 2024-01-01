@@ -11,14 +11,14 @@ namespace sc
 		RawImage(
 			uint8_t* data,
 			uint16_t width, uint16_t height,
-			Image::BasePixelType type,
 			Image::PixelDepth depth = Image::PixelDepth::RGBA8,
 			Image::ColorSpace space = Image::ColorSpace::Linear
 		);
 
 		RawImage(
 			uint16_t width, uint16_t height,
-			Image::BasePixelType type, Image::PixelDepth depth
+			Image::PixelDepth depth,
+			Image::ColorSpace space = Image::ColorSpace::Linear
 		);
 
 		~RawImage();
