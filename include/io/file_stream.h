@@ -56,7 +56,7 @@ namespace sc
 
 		size_t position() const override
 		{
-			return m_file.tellg();
+			return m_position;
 		};
 
 		size_t seek(size_t position, Seek mode = Seek::Set) override
@@ -65,9 +65,11 @@ namespace sc
 			{
 			case Seek::Set:
 				m_file.seekg(position, std::ios::beg);
+				m_position = position;
 				break;
 			case Seek::Add:
 				m_file.seekg(position, std::ios::cur);
+				m_position += position;
 				break;
 			default:
 				break;
@@ -103,6 +105,7 @@ namespace sc
 				std::memcpy(ptr, (uint8_t*)m_data + position(), result);
 			}
 
+			m_position += result;
 			return result;
 		};
 
@@ -115,6 +118,7 @@ namespace sc
 		mutable std::ifstream m_file;
 
 		size_t m_file_size;
+		size_t m_position = 0;
 
 		void* m_data = nullptr;
 	};
