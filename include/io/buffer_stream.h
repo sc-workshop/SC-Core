@@ -27,7 +27,7 @@ namespace sc
 			return (void*)m_buffer.data();
 		};
 
-		void* data()
+		void* data() override
 		{
 			return const_cast<void*>(const_cast<const BufferStream*>(this)->data());
 		};
@@ -78,7 +78,7 @@ namespace sc
 		{
 			m_buffer.resize(length);
 		};
-		;
+
 		void clear()
 		{
 			m_buffer.clear();

@@ -7,7 +7,7 @@ namespace sc
 	{
 		MemoryPool::MemoryPool() : MemoryPool(64, 1024) {}
 
-		MemoryPool::MemoryPool(size_t n, size_t sz) : m_block_num(n), m_block_size(sz) {
+		MemoryPool::MemoryPool(size_t n, size_t sz) : m_block_size(sz), m_block_num(n) {
 			m_pool = operator new(m_pool_size);
 			// succeess create the pool
 			if (m_pool != nullptr) {

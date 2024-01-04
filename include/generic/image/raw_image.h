@@ -21,7 +21,7 @@ namespace sc
 			Image::ColorSpace space = Image::ColorSpace::Linear
 		);
 
-		~RawImage();
+		virtual ~RawImage();
 
 	public:
 		virtual size_t data_length() const;

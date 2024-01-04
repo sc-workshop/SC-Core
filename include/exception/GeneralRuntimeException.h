@@ -26,8 +26,8 @@ public: \
 	} \
 }
 
-#define SC_CONSTRUCT_CHILD_EXCEPTION(Parent, Name, Message) SC_CONSTRUCT_CHILD_EXCEPTION_CLASS(Parent, Name, Message, , m_message = ##Message;)
-#define SC_CONSTRUCT_SIMPLE_EXCEPTION(Name, Message) SC_CONSTRUCT_CHILD_EXCEPTION(GeneralRuntimeException, Name, Message)
+#define SC_CONSTRUCT_CHILD_EXCEPTION(Parent, Name, _Message) SC_CONSTRUCT_CHILD_EXCEPTION_CLASS(Parent, Name, Message, , m_message = _Message;)
+#define SC_CONSTRUCT_SIMPLE_EXCEPTION(Name, _Message) SC_CONSTRUCT_CHILD_EXCEPTION(GeneralRuntimeException, Name, _Message)
 
 namespace sc
 {

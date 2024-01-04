@@ -147,13 +147,9 @@ namespace sc
 			return m_file_size;
 		};
 
-		size_t position()
-		{
-			return m_file.tellp();
-		};
 		size_t position() const override
 		{
-			return this->position();
+			return m_file.tellp();
 		};
 		size_t seek(size_t position, Seek mode) override
 		{

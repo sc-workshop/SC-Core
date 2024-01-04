@@ -18,7 +18,7 @@ namespace sc
 		uint16_t width, uint16_t height,
 		Image::PixelDepth depth,
 		Image::ColorSpace space
-	) : m_data(data), m_space(space), m_depth(depth)
+	) : m_space(space), m_depth(depth), m_data(data)
 	{
 		m_width = width;
 		m_height = height;
@@ -35,7 +35,7 @@ namespace sc
 	RawImage::RawImage(
 		uint16_t width, uint16_t height,
 		Image::PixelDepth depth, Image::ColorSpace space
-	) : m_depth(depth), m_space(space)
+	) : m_space(space), m_depth(depth)
 	{
 		m_width = width;
 		m_height = height;

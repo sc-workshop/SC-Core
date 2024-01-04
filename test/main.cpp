@@ -1,6 +1,9 @@
 #include "generic/image/raw_image.h"
 #include "memory/alloc.h"
 #include "memory/Allocator/STL/MemoryPool.h"
+#include "io/buffer_stream.h"
+#include "io/file_stream.h"
+#include "io/memory_stream.h"
 
 #include "exception/io/FileExceptions.h"
 
@@ -11,7 +14,7 @@ void throwing_function()
 	throw IOGeneralException();
 }
 
-int main(int, char*)
+int main(int, char**)
 {
 	try
 	{

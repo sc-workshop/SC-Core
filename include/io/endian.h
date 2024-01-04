@@ -23,14 +23,14 @@ constexpr T swap_endian(T value)
 	return dst.value;
 }
 
-constexpr bool is_big_endian()
+bool is_big_endian()
 {
-	return (*((int16_t*)"AB") == 0x4243);
+	return (*((const int16_t*)"AB") == 0x4243);
 }
 
-constexpr bool is_little_endian()
+bool is_little_endian()
 {
-	return (*((int16_t*)"AB") != 0x4243);
+	return (*((const int16_t*)"AB") != 0x4243);
 }
 
 constexpr bool is_endian(const Endian& endian)

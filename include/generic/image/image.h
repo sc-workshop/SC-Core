@@ -9,7 +9,11 @@ namespace sc
 	class Image
 	{
 	public:
-		const enum class BasePixelType : uint8_t
+		Image() = default;
+		virtual ~Image() = default;
+
+	public:
+		enum class BasePixelType : uint8_t
 		{
 			RGBA = 4,
 			RGB = 3,
@@ -17,7 +21,7 @@ namespace sc
 			L = 1,
 		};
 
-		const enum class ColorSpace : uint8_t
+		enum class ColorSpace : uint8_t
 		{
 			Linear = 0,
 			sRGB,
@@ -36,7 +40,7 @@ namespace sc
 
 		static const BasePixelType PixelDepthBaseTypeTable[];
 
-		const enum class PixelDepth : uint16_t
+		enum class PixelDepth : uint16_t
 		{
 			RGBA8 = 0,
 			RGBA4,

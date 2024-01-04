@@ -30,6 +30,8 @@ set(Core_Headers
   "include/exception/io/IOGeneralException.h"
 
   "include/generic/image/raw_image.h"
+  "include/generic/image/image.h"
+  "include/generic/image/compressed_image.h"
   "include/generic/md5.h"
   "include/generic/ref.h"
 
@@ -69,9 +71,9 @@ target_include_directories("SupercellCore"
 
 function(sc_core_base_setup project_name)
   target_compile_options(${project_name} PRIVATE
-    $<$<AND:${SC_MSVC},${SC_RELEASE}>: /W4 /WX /Ox /GF /Gy /GS- /Ob2 /Oi /Ot>
+    $<$<AND:${SC_MSVC},${SC_RELEASE}>: /Wall /WX /Ox /GF /Gy /GS- /Ob2 /Oi /Ot>
 
-    $<${SC_GNU}:-Wall -Wextra -Wpedantic -Werror>
+    $<$<OR:${SC_GNU},${SC_CLANG}>:-Wall -Wextra -Wpedantic -Wno-unused-variable -Wno-unknown-pragmas -Werror>
   )
 
   target_compile_features(${project_name}

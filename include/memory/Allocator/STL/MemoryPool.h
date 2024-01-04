@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <limits>
 
 // https://github.com/ysmiles/allocator-cpp
 
@@ -90,7 +91,7 @@ namespace sc
 				// use memory pool m_pool
 				return static_cast<pointer>(memp.allocate(sizeof(T) * n));
 			}
-			static pointer allocate(size_type n, pointer ptr) {
+			static pointer allocate(size_type n, pointer) {
 				return allocate(n);
 			}
 			static void deallocate(pointer ptr, size_type n) {

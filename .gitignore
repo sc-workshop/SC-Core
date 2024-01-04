@@ -3,3 +3,4 @@
 *.vcxproj.*
 *.sln
 /build
+/android_build
