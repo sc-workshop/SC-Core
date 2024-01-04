@@ -1,5 +1,4 @@
-﻿include(cmake/constants.cmake)
-include(FetchContent)
+﻿include(FetchContent)
 
 # Base Prepare
 if(NOT CMAKE_BUILD_TYPE)
@@ -69,7 +68,33 @@ target_include_directories("SupercellCore"
   "include/"
 )
 
-function(sc_core_base_setup project_name)
+macro(sc_set_global var_name var_value)
+    set(${var_name} ${var_value} CACHE INTERNAL "")
+    add_compile_definitions(
+        ${var_name}=${var_value}
+    )
+endmacro()
+
+macro(sc_core_base_setup project_name)
+# Defines
+  sc_set_global(SC_GNU_DEF_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},GNU>")
+  sc_set_global(SC_GNU_APPLE_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},AppleClang>")
+  sc_set_global(SC_GNU_fe "$<OR:${SC_GNU_DEF_fe},${SC_GNU_APPLE_fe}>")
+  sc_set_global(SC_MSVC_fe "$<STREQUAL:${CMAKE_CXX_COMPILER_FRONTEND_VARIANT},MSVC>")
+
+  sc_set_global(SC_CLANG "$<OR:${SC_GNU_fe},$<CXX_COMPILER_ID:Clang>>")
+  sc_set_global(SC_GNU "$<OR:${SC_GNU_fe},$<CXX_COMPILER_ID:GNU>>")
+  sc_set_global(SC_MSVC "$<OR:${SC_MSVC_fe},$<CXX_COMPILER_ID:MSVC>>")
+
+  sc_set_global(SC_DEBUG "$<CONFIG:Debug>")
+  sc_set_global(SC_RELEASE "$<CONFIG:Release,RelWithDebInfo,MinSizeRel>")
+
+  sc_set_global(SC_X86_64 "$<STREQUAL:${CMAKE_SYSTEM_PROCESSOR},x86_64>")
+  sc_set_global(SC_AARCH64 "$<STREQUAL:${CMAKE_SYSTEM_PROCESSOR},aarch64>")
+
+  sc_set_global(SC_X64 "$<OR:${SC_X86_64},${SC_AARCH64}>")
+
+  # Compile Flags
   target_compile_options(${project_name} PRIVATE
     $<$<AND:${SC_MSVC},${SC_RELEASE}>: /Wall /WX /Ox /GF /Gy /GS- /Ob2 /Oi /Ot>
 
@@ -80,7 +105,7 @@ function(sc_core_base_setup project_name)
     PRIVATE
     cxx_std_17
   )
-endfunction()
+endmacro()
 
 sc_core_base_setup("SupercellCore")
 
