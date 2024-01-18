@@ -25,8 +25,9 @@ constexpr T swap_endian(T value)
 
 constexpr bool is_endian(const Endian& endian)
 {
-	const char* test_string = "AB";
-	const int16_t* test_number = (const int16_t*)test_string;
-
-	return (endian == Endian::Little && *test_number == 0x4243) || (endian == Endian::Big && *test_number != 0x4243);
+	#ifdef __BIG_ENDIAN__
+		return endian == Endian::Big;
+	#else
+		return endian == Endian::Little;
+	#endif
 }
