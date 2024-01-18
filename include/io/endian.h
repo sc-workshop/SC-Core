@@ -28,5 +28,5 @@ constexpr bool is_endian(const Endian& endian)
 	const char* test_string = "AB";
 	const int16_t* test_number = (const int16_t*)test_string;
 
-	return endian == Endian::Little && *test_number == 0x4243 || endian == Endian::Big && *test_number != 0x4243;
+	return (endian == Endian::Little && *test_number == 0x4243) || (endian == Endian::Big && *test_number != 0x4243);
 }
