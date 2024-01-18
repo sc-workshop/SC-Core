@@ -1,11 +1,11 @@
 ﻿cmake_minimum_required(VERSION 3.22)
 
+project("SupercelllCore" CXX)
+
 include(cmake/SupercellCore.cmake)
 
 # Options
 option(SC_CORE_TEST "Build Core Test" ON)
-
-project("SupercelllCore")
 
 if(${SC_CORE_TEST})
   add_executable("SupercellCoreTest"
