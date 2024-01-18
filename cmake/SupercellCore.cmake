@@ -94,13 +94,13 @@ macro(sc_core_base_setup project_name)
 
   sc_set_global(SC_X64 "$<OR:${SC_X86_64},${SC_AARCH64}>")
 
-  # Compile Flags
+# Compile Flags
   target_compile_options(${project_name} PRIVATE
     $<$<AND:${SC_MSVC},${SC_RELEASE}>: /Wall /WX /Ox /GF /Gy /GS- /Ob2 /Oi /Ot>
 
     $<$<OR:${SC_GNU},${SC_CLANG}>:-Wall -Wextra -Wpedantic -Wno-unused-variable -Wno-unknown-pragmas -Werror>
   )
-
+  
   target_compile_features(${project_name}
     PRIVATE
     cxx_std_17
@@ -125,5 +125,3 @@ target_link_libraries("SupercellCore"
 set_target_properties("cpptrace-lib" PROPERTIES
   FOLDER Debug
 )
-
-# # TODO: Test this all on Linux
