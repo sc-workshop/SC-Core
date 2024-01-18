@@ -15,10 +15,6 @@ namespace sc
 	class InputFileStream : public Stream
 	{
 	public:
-		InputFileStream(const InputFileStream&) = delete;
-		InputFileStream& operator=(const InputFileStream&) = delete;
-
-	public:
 		InputFileStream(const fs::path& path)
 		{
 			m_file.open(path.c_str(), std::ios_base::binary);

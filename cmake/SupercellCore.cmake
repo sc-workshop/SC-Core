@@ -98,6 +98,8 @@ macro(sc_core_base_setup project_name)
   target_compile_options(${project_name} PRIVATE
     $<$<AND:${SC_MSVC},${SC_RELEASE}>: /Wall /WX /Ox /GF /Gy /GS- /Ob2 /Oi /Ot>
 
+    $<${SC_MSVC}: /wd4820 /wd4365 /wd4061 /wd4514 /wd5219 /wd4242 /wd4711 /wd4710 /wd4625 /wd4626 /wd5039 /wd5045 > # Top 10 stupidest warnings
+
     $<$<OR:${SC_GNU},${SC_CLANG}>:-Wall -Wextra -Wpedantic -Wno-unused-variable -Wno-unknown-pragmas -Werror>
   )
   

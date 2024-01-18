@@ -79,7 +79,7 @@ namespace sc
 		};
 		uint32_t read_unsigned_int(Endian endian = Endian::Little)
 		{
-			int32_t value; read_data(&value, sizeof(int32_t));
+			uint32_t value; read_data(&value, sizeof(uint32_t));
 			if (!is_endian(endian)) value = swap_endian(value);
 			return value;
 		};

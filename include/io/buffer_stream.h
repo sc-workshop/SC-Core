@@ -46,9 +46,7 @@ namespace sc
 			switch (mode)
 			{
 			case Seek::Set:
-				m_position = (position < 0 ? 0 :
-					(position > m_buffer.size() ?
-						m_buffer.size() : position));
+				m_position = position > m_buffer.size() ? m_buffer.size() : position;
 				break;
 			case Seek::Add:
 				m_position = m_position + position > length() ? length() : m_position + position;

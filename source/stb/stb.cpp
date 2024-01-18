@@ -44,7 +44,7 @@ namespace sc
 			// Image Info
 			{
 				size_t position = stream.position();
-				bool result = stbi_info_from_callbacks(&stbi_sc_io_callback, (void*)&stream, &width, &height, &channels);
+				int result = stbi_info_from_callbacks(&stbi_sc_io_callback, (void*)&stream, &width, &height, &channels);
 
 				if (!result)
 				{
@@ -103,10 +103,10 @@ namespace sc
 #pragma endregion
 
 #pragma region Image Write
-		int stbi_sc_io_write(void* user, void* data, int size)
+		void stbi_sc_io_write(void* user, void* data, int size)
 		{
 			Stream* stream = (Stream*)user;
-			return static_cast<int>(stream->write(data, size));
+			stream->write(data, size);
 		}
 
 		void write_image(RawImage& image, ImageFormat format, Stream& output)
@@ -166,16 +166,16 @@ namespace sc
 			switch (format)
 			{
 			case ImageFormat::PNG:
-				result = stbi_write_png_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data(), 0);
+				result = stbi_write_png_to_func(&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data(), 0);
 				break;
 			case sc::stb::ImageFormat::BMP:
-				result = stbi_write_bmp_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
+				result = stbi_write_bmp_to_func(&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
 				break;
 			case sc::stb::ImageFormat::TGA:
-				result = stbi_write_tga_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
+				result = stbi_write_tga_to_func(&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
 				break;
 			case sc::stb::ImageFormat::JPEG:
-				result = stbi_write_jpg_to_func((stbi_write_func*)&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
+				result = stbi_write_jpg_to_func(&stbi_sc_io_write, (void*)&output, image.width(), image.height(), channels, buffer ? buffer : image.data());
 				break;
 			default:
 				break;

@@ -65,7 +65,7 @@ namespace sc
 		};
 
 #pragma region Image Write
-		int stbi_sc_io_write(void* user, void* data, int size);
+		void stbi_sc_io_write(void* user, void* data, int size);
 
 		void write_image(RawImage& image, ImageFormat format, Stream& output);
 
