@@ -45,6 +45,11 @@ namespace sc
 		virtual ~GeneralRuntimeException() = default;
 
 	public:
+		virtual const char* type() const noexcept
+		{
+			return m_typename;
+		}
+
 		virtual const char* what() const noexcept
 		{
 			return m_message.c_str();
@@ -55,7 +60,7 @@ namespace sc
 			return m_trace_holder.get_resolved_trace();
 		}
 
-		virtual const char* message() noexcept
+		virtual const char* message() const noexcept
 		{
 			if (m_trace_message.empty())
 			{
@@ -118,6 +123,6 @@ namespace sc
 		const char* m_typename;
 		std::string m_message = "Unknown runtime error";
 
-		std::string m_trace_message;
+		mutable std::string m_trace_message;
 	};
 }
