@@ -135,28 +135,30 @@ namespace sc
 			}
 
 			Image::PixelDepth destination_depth = Image::PixelDepth::RGBA8;
-			if (source_type == Image::BasePixelType::RGBA)
+			switch (source_type)
 			{
+			case Image::BasePixelType::RGBA:
 				destination_depth = Image::PixelDepth::RGBA8;
-			}
-			else if (source_type == Image::BasePixelType::RGB)
-			{
+				break;
+			case Image::BasePixelType::RGB:
 				destination_depth = Image::PixelDepth::RGB8;
-			}
-			else if (source_type == Image::BasePixelType::LA)
-			{
+				break;
+			case Image::BasePixelType::LA:
 				destination_depth = Image::PixelDepth::LUMINANCE8_ALPHA8;
-			}
-			else if (source_type == Image::BasePixelType::L)
-			{
+				break;
+			case Image::BasePixelType::L:
 				destination_depth = Image::PixelDepth::LUMINANCE8;
+				break;
+			default:
+				break;
 			}
 
 			if (image.depth() != destination_depth)
 			{
 				buffer = sc::memalloc(Image::calculate_image_length(image.width(), image.height(), destination_depth));
 
-				Image::remap(image.data(), buffer,
+				Image::remap(
+					image.data(), buffer,
 					image.width(), image.height(),
 					image.depth(), destination_depth
 				);

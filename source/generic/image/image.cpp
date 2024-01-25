@@ -99,6 +99,12 @@ namespace sc
 				{
 					uint64_t r_bits_mask = (uint64_t)pow(2, input_pixel_info.r_bits) - 1;
 					r_channel = static_cast<uint8_t>(r_bits_mask & input_pixel_buffer);
+					
+					if (input_pixel_info.r_bits < output_pixel_info.r_bits)
+					{
+						r_channel <<= output_pixel_info.r_bits - input_pixel_info.r_bits;
+					}
+
 					bit_index += input_pixel_info.r_bits;
 				}
 
@@ -106,6 +112,12 @@ namespace sc
 				{
 					uint64_t g_bits_mask = (uint64_t)pow(2, input_pixel_info.g_bits) - 1;
 					g_channel = static_cast<uint8_t>(((g_bits_mask << bit_index) & input_pixel_buffer) >> bit_index);
+
+					if (input_pixel_info.g_bits < output_pixel_info.g_bits)
+					{
+						g_channel <<= output_pixel_info.g_bits - input_pixel_info.g_bits;
+					}
+					
 					bit_index += input_pixel_info.g_bits;
 				}
 				else
@@ -117,6 +129,12 @@ namespace sc
 				{
 					uint64_t b_bits_mask = (uint64_t)pow(2, input_pixel_info.b_bits) - 1;
 					b_channel = static_cast<uint8_t>(((b_bits_mask << bit_index) & input_pixel_buffer) >> bit_index);
+					
+					if (input_pixel_info.b_bits < output_pixel_info.b_bits)
+					{
+						b_channel <<= output_pixel_info.b_bits - input_pixel_info.b_bits;
+					}
+
 					bit_index += input_pixel_info.b_bits;
 				}
 				else
@@ -128,6 +146,11 @@ namespace sc
 				{
 					uint64_t a_bits_mask = (uint64_t)pow(2, input_pixel_info.a_bits) - 1;
 					a_channel = static_cast<uint8_t>(((a_bits_mask << bit_index) & input_pixel_buffer) >> bit_index);
+
+					if (input_pixel_info.a_bits < output_pixel_info.a_bits)
+					{
+						a_channel <<= output_pixel_info.a_bits - input_pixel_info.a_bits;
+					}
 				}
 				else
 				{

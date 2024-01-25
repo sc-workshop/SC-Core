@@ -16,14 +16,13 @@ namespace sc
 		MemoryStream(size_t length) : m_allocated_data(memalloc(length))
 		{
 			m_data = m_allocated_data;
+			m_length = length;
 		}
 
 		MemoryStream(uint8_t* data, size_t length)
 		{
 			m_data = data;
-
 			m_length = length;
-			m_position = 0;
 		};
 
 		virtual ~MemoryStream()
