@@ -13,7 +13,10 @@ namespace sc
 	{
 		union
 		{
-			T a, b, c, d, tx, ty;
+			struct
+			{
+				T a, b, c, d, tx, ty;
+			};
 
 			T elements[6];
 		};
