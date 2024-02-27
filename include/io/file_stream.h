@@ -17,6 +17,11 @@ namespace sc
 	public:
 		InputFileStream(const fs::path& path)
 		{
+			if (!fs::exists(path))
+			{
+				throw FileExistException(path);
+			}
+
 			m_file.open(path.c_str(), std::ios_base::binary);
 
 			m_file.seekg(0, std::ios::end);
