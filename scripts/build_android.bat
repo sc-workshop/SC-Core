@@ -1,8 +1,10 @@
 @echo off
 
+
 set ABI=armeabi-v7a
 IF NOT "%~3"=="" set ABI=%3
 
+cd %NDK_CMAKE%/bin/
 cmake^
     -DCMAKE_TOOLCHAIN_FILE="%NDK%/build/cmake/android.toolchain.cmake"^
     -DCMAKE_MAKE_PROGRAM="%NDK_CMAKE%/bin/ninja"^
