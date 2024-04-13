@@ -5,7 +5,7 @@ project("SupercelllCore" CXX)
 include(cmake/SupercellCore.cmake)
 
 # Options
-option(SC_CORE_TEST "Build Core Test" ON)
+option(SC_CORE_TEST "Build Core Test" OFF)
 
 if(${SC_CORE_TEST})
   add_executable("SupercellCoreTest"
