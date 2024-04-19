@@ -111,12 +111,12 @@ endmacro()
 
 sc_core_base_setup("SupercellCore")
 
-set(CPPTRACE_STATIC ON)
+set(CPPTRACE_BUILD_SHARED OFF)
 
 FetchContent_Declare(
   cpptrace
   GIT_REPOSITORY "https://github.com/jeremy-rifkin/cpptrace.git"
-  GIT_TAG ab389c36bd14ab0d3a3cfef5d4916d1c513955c6 # 0.3.1
+  GIT_TAG v0.5.2
 )
 FetchContent_MakeAvailable(cpptrace)
 
