@@ -116,7 +116,7 @@ set(CPPTRACE_STATIC_DEFINE TRUE)
 FetchContent_Declare(
   cpptrace
   GIT_REPOSITORY "https://github.com/jeremy-rifkin/cpptrace.git"
-  GIT_TAG 531a8c13d948ec883088bae4fb6c15dc4ffe0a74 // v0.5.2 with some fixes
+  GIT_TAG 531a8c13d948ec883088bae4fb6c15dc4ffe0a74 # v0.5.2 with some fixes
 )
 FetchContent_MakeAvailable(cpptrace)
 
