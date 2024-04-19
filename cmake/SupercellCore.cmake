@@ -111,7 +111,7 @@ endmacro()
 
 sc_core_base_setup("SupercellCore")
 
-set(CPPTRACE_BUILD_SHARED OFF)
+set(CPPTRACE_STATIC_DEFINE TRUE)
 
 FetchContent_Declare(
   cpptrace
