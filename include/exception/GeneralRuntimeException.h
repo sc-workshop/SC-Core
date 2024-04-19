@@ -102,7 +102,7 @@ namespace sc
 
 						for (size_t t = 0; sizeof(cpptrace::frame_ptr) > t; t++)
 						{
-							message << std::setfill('0') << std::setw(2) << std::hex << (0xff & (unsigned int)*(&frame.address + t));
+							message << std::setfill('0') << std::setw(2) << std::hex << (0xff & (unsigned int)*(&frame.object_address + t));
 						}
 					}
 
