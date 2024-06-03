@@ -1,20 +1,21 @@
 ﻿cmake_minimum_required(VERSION 3.22)
 
-project("SupercelllCore" CXX)
 
-include(cmake/SupercellCore.cmake)
+# workspace
+project(supercell-sdk)
 
-# Options
-option(SC_CORE_TEST "Build Core Test" OFF)
+# options
+option(SC_CORE_BUILD_SHARED "Build supercell::core library as shared library" OFF)
 
-if(${SC_CORE_TEST})
-  add_executable("SupercellCoreTest"
-    "test/main.cpp"
-  )
 
-  sc_core_base_setup("SupercellCoreTest")
-  target_link_libraries("SupercellCoreTest" PUBLIC SupercellCore)
-  set_target_properties("SupercellCoreTest" PROPERTIES
-    FOLDER Supercell/CLI
-  )
-endif()
+# lets force C++17
+set(CMAKE_CXX_STANDARD 17)
+
+# includes
+include(FetchContent)
+include(cmake/supercell-sdk-macros.cmake)
+
+
+# projects
+add_subdirectory(supercell-core)
+
