@@ -18,4 +18,3 @@ include(cmake/supercell-sdk-macros.cmake)
 
 # projects
 add_subdirectory(supercell-core)
-
