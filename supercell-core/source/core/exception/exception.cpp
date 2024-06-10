@@ -16,6 +16,8 @@ namespace sc
 
 	void Exception::proceed_vargs(const char* format, va_list args)
 	{
-		vsprintf(m_message.data(), format, args);
+		char message[2048]; // TODO(pavidloq): wtf?
+		vsprintf(message, format, args);
+		m_message = message;
 	}
 }

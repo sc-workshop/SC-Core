@@ -24,7 +24,8 @@ namespace sc
 		{
 			if (!fs::exists(path))
 			{
-				throw Exception("File %s doesn't exist!", path.c_str());
+				std::string path_string(path.u8string()); // scary
+				throw Exception("File %s doesn't exist!", path_string.c_str());
 			}
 
 			m_file.open(path.c_str(), std::ios_base::binary);
