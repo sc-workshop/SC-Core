@@ -8,6 +8,10 @@
 
 namespace wk
 {
+    constexpr uint64_t mask(uint8_t bits) {
+        return bits ? ((1ull << bits) - 1) : 0;
+    }
+
 #pragma region Constants
 	const Image::PixelDepthInfo Image::PixelDepthTable[] =
 	{
@@ -89,27 +93,51 @@ namespace wk
 
 		struct Channel
 		{
-			float& value;
+			float* value;
 			const uint64_t input_mask;
 			const uint8_t& input_bits;
 
 			const uint64_t output_mask;
 			const uint8_t& output_bits;
 
-			const float& default_value;
+			const float* default_value;
 		};
 
-#define MASK(value) (uint64_t)std::pow(2, value) - 1
+		float default_r = 0.f;
+        float& default_g = default_r;
+        float& default_b = default_g;
+        float default_a = 1.0f;
 
-		const std::vector<Channel> _channels =
-		{
-			{r_channel, MASK(input_pixel_info.r_bits), input_pixel_info.r_bits, MASK(output_pixel_info.r_bits), output_pixel_info.r_bits, 0.f},
-			{g_channel, MASK(input_pixel_info.g_bits), input_pixel_info.g_bits, MASK(output_pixel_info.g_bits), output_pixel_info.g_bits, r_channel},
-			{b_channel, MASK(input_pixel_info.b_bits), input_pixel_info.b_bits, MASK(output_pixel_info.b_bits), output_pixel_info.b_bits, b_channel},
-			{a_channel, MASK(input_pixel_info.a_bits), input_pixel_info.a_bits, MASK(output_pixel_info.a_bits), output_pixel_info.a_bits, 1.f},
-		};
+		const std::array<Channel, 4> _channels =
+		{{
+            {&r_channel,
+             mask(input_pixel_info.r_bits),
+             input_pixel_info.r_bits,
+             mask(output_pixel_info.r_bits),
+             output_pixel_info.r_bits,
+             &default_r},
 
-#undef MASK
+            {&g_channel,
+             mask(input_pixel_info.g_bits),
+             input_pixel_info.g_bits,
+             mask(output_pixel_info.g_bits),
+             output_pixel_info.g_bits,
+             &default_g},
+
+            {&b_channel,
+             mask(input_pixel_info.b_bits),
+             input_pixel_info.b_bits,
+             mask(output_pixel_info.b_bits),
+             output_pixel_info.b_bits,
+             &default_b},
+
+            {&a_channel,
+             mask(input_pixel_info.a_bits),
+             input_pixel_info.a_bits,
+             mask(output_pixel_info.a_bits),
+             output_pixel_info.a_bits,
+             &default_a},
+        }};
 
 		for (std::uint64_t pixel_index = 0; pixel_count > pixel_index; pixel_index++)
 		{
@@ -135,14 +163,14 @@ namespace wk
 
 					if (channel.input_bits)
 					{
-						uint8_t value = static_cast<std::uint8_t>(((channel.input_mask << bit_index) & input_pixel_buffer) >> bit_index);
-						channel.value = (float)value / channel.input_mask;
+                        uint32_t value = (input_pixel_buffer >> bit_index) & channel.input_mask;
+						*channel.value = (float)value / channel.input_mask;
 
 						bit_index += channel.input_bits;
 					}
 					else
 					{
-						channel.value = channel.default_value;
+						*channel.value = *channel.default_value;
 					}
 
 					channel_index++;
@@ -183,7 +211,7 @@ namespace wk
 
 					if (channel.output_bits)
 					{
-						output_pixel_buffer |= (((uint8_t)(channel.value * channel.output_mask) & channel.output_mask) << bit_offset);
+						output_pixel_buffer |= (((uint8_t)(*channel.value * channel.output_mask) & channel.output_mask) << bit_offset);
 						bit_offset += channel.output_bits;
 					}
 				}
